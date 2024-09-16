@@ -1,6 +1,46 @@
 #include "philo.h"
 
-int primes[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
+
+
+//-----------------------------------//
+
+/* pthread_mutex_t mutex;
+
+void *routine(void *arg)
+{
+	pthread_mutex_lock(&mutex);
+	printf("mutex is locked\n");
+	sleep(1);
+	pthread_mutex_unlock(&mutex);
+	return (NULL);
+}
+
+int	main(void)
+{
+	pthread_t	th[4];
+	int	i;
+
+	pthread_mutex_init(&mutex, NULL);
+	i = 0;
+	while (i < 4)
+	{
+		if (pthread_create(&th[i], NULL, &routine, NULL) != 0)
+			printf("error\n");
+		i++;
+	}
+	i = 0;
+	while (i < 4)
+	{
+		if (pthread_join(th[i], NULL) != 0)
+			printf("error\n");
+		i++;
+	}
+	return (0);
+} */
+
+//-------------------------------------//
+
+/* int primes[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
 
 void *routine(void *arg)
 {
@@ -23,7 +63,7 @@ int main(int argc, char **argv)
 		a = (int *)malloc(sizeof(int));
 		*a = i;
 		if (pthread_create(&th[i], NULL, &routine, a) != 0)
-			return (printf("treta 1\n"), 1);
+			printf("treta 1\n");
 		i++;
 		//printf("index: %d\n", *a);
 	}
@@ -32,10 +72,11 @@ int main(int argc, char **argv)
 	{
 		//sleep(1);
 		if (pthread_join(th[i], NULL) != 0)
-			return (printf("treta 2\n"), 1);
+			printf("treta 2\n");
+		i++;
 	}
 	return (0);
-}
+} */
 
 //------------------------------------//
 

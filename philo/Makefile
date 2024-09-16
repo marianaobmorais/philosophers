@@ -6,13 +6,14 @@
 #    By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 16:55:40 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/10 18:09:58 by mariaoli         ###   ########.fr        #
+#    Updated: 2024/09/16 17:15:15 by mariaoli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS = main.c
+SRCS = main.c \
+		check_args.c
 OBJS = $(SRCS:.c=.o)
 
 CC = cc

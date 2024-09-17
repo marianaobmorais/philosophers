@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:14:59 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/16 17:45:45 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/17 20:35:07 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ static int	ft_isint(char **argv)
 	return (1);
 }
 
-// do I accept long or just int?
-// check if is positive or negative -> is_digit already checks it
 int	check_args(int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)

@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:45:54 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/17 20:26:23 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/17 20:36:13 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*routine(void *arg)
 	usleep(philos->sleep_time);
 	
 	printf("%d %d is thinking\n", elapsed, philos->philo_id);
-	
+
 	printf("%d %d died\n", elapsed, philos->philo_id);
 	return (NULL);
 }
@@ -69,7 +69,8 @@ t_philos	init_philos(char **argv, t_table *table, int id)
 	t_philos	philos;
 
 	philos.philo_id = id;
-	philos.die_time = ft_atoi(argv[2]); // or is_alive?
+	philos.die_time = ft_atoi(argv[2]);
+	//philos.is_alive = true;
 	philos.eat_time = ft_atoi(argv[3]);
 	philos.sleep_time = ft_atoi(argv[4]);
 	if (argv[5])

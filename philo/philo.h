@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/17 17:15:02 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/17 19:51:50 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philos
 typedef struct s_table
 {
 	int			philo_count;
+	int			start_time;
 	t_philos	*philos;
 }	t_table;
 

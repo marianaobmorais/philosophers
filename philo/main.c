@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:45:54 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/17 17:24:53 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/17 20:26:23 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,30 @@ int	ft_atoi(char *ptr)
 	return (res * sign);
 }
 
-void	*routine(/* void *arg */)
+void	*routine(void *arg)
 {
-	printf("timestamp_in_ms X has taken a fork\n");
-	printf("timestamp_in_ms X has taken a fork\n");
-	printf("timestamp_in_ms X is eating\n");
-	printf("timestamp_in_ms X is sleeping\n");
-	printf("timestamp_in_ms X is thinking\n");
-	printf("timestamp_in_ms X died\n");
+	t_philos		*philos = (t_philos *)arg;
+	struct timeval	end;
+	int				elapsed;
+
+	gettimeofday(&end, NULL);
+	elapsed = (end.tv_sec * 1000) - philos->table->start_time;
+	pthread_mutex_lock(&philos->fork);
+	printf("%d %d has taken a fork\n", elapsed, philos->philo_id);
+	pthread_mutex_unlock(&philos->fork);
+	
+	pthread_mutex_lock(&philos->next->fork);
+	printf("%d %d has taken a fork\n", elapsed, philos->philo_id);
+	printf("%d %d is eating\n", elapsed, philos->philo_id);
+	usleep(philos->eat_time);
+	pthread_mutex_unlock(&philos->next->fork);
+	
+	printf("%d %d is sleeping\n", elapsed, philos->philo_id);
+	usleep(philos->sleep_time);
+	
+	printf("%d %d is thinking\n", elapsed, philos->philo_id);
+	
+	printf("%d %d died\n", elapsed, philos->philo_id);
 	return (NULL);
 }
 
@@ -52,8 +68,6 @@ t_philos	init_philos(char **argv, t_table *table, int id)
 {
 	t_philos	philos;
 
-	if (pthread_create(&philos.philo, NULL, &routine, NULL) != 0)
-		printf("Error: pthread_create\n");
 	philos.philo_id = id;
 	philos.die_time = ft_atoi(argv[2]); // or is_alive?
 	philos.eat_time = ft_atoi(argv[3]);
@@ -67,13 +81,16 @@ t_philos	init_philos(char **argv, t_table *table, int id)
 
 t_table	*init(char **argv)
 {
-	t_table	*table;
-	int		i;
+	t_table			*table;
+	int				i;
+	struct timeval	start;
 
 	table = (t_table *)malloc(sizeof(t_table));
 	if (!table)
 		return (NULL);
 	table->philo_count = ft_atoi(argv[1]);
+	gettimeofday(&start, NULL);
+	table->start_time = (start.tv_sec * 1000); //milliseconds
 	table->philos = (t_philos *)malloc(sizeof(t_philos) * (table->philo_count));
 	if (!table->philos)
 		return (NULL);
@@ -84,8 +101,14 @@ t_table	*init(char **argv)
 		table->philos[i].next = &table->philos[i + 1];
 		i++;
 	}
-	i--;
-	table->philos[i].next = &table->philos[0];
+	table->philos[--i].next = &table->philos[0];
+	i = 0;
+	while (i < table->philo_count)
+	{
+		if (pthread_create(&table->philos[i].philo, NULL, &routine, &table->philos[i]) != 0)
+			printf("Error: pthread_create\n");
+		i++;
+	}
 	return (table);
 }
 
@@ -114,7 +137,7 @@ int	main(int argc, char **argv)
 {
 	t_table	*table;
 	int		i;
-	
+
 	if (!check_args(argc, argv))
 		return (1);
 	table = init(argv);

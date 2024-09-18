@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/17 20:37:17 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:39:11 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <pthread.h>
 # include <string.h>
 # include <limits.h>
+# include <stdbool.h>
 
 typedef struct s_table	t_table;
 typedef struct s_philos	t_philos;
@@ -28,11 +29,11 @@ typedef struct s_philos
 {
 	pthread_t		philo;
 	int				philo_id;
-	int				die_time;
+	size_t			die_time;
 	//bool			is_alive;
-	int				eat_time;
-	int				sleep_time;
-	int				meals_count;
+	size_t			eat_time;
+	size_t			sleep_time;
+	size_t			meals_count;
 	pthread_mutex_t fork;
 	struct s_philos	*next;
 	t_table			*table;
@@ -41,13 +42,16 @@ typedef struct s_philos
 typedef struct s_table
 {
 	int			philo_count;
-	int			start_time;
+	size_t		start_time;
 	t_philos	*philos;
 }	t_table;
 
-int		check_args(int argc, char **argv);
-t_table	*init(char **argv);
-void	free_structs(t_philos *philos, int count);
-void	*routine(void *arg);
+int			check_args(int argc, char **argv);
+t_table		*init(char **argv);
+t_philos	init_philos(char **argv, t_table *table, int id);
+void		free_structs(t_philos *philos, int count);
+void		*routine(void *arg);
+size_t		get_time(void);
+size_t		elapsed_time(size_t start_time);
 
 #endif

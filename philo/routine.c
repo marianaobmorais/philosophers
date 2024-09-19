@@ -6,13 +6,33 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 18:57:58 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/18 19:19:57 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:43:14 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	eat(t_philos *philos)
+int	is_alive(t_philos *philos)
+{
+	size_t	elapsed;
+
+	//printf("\nphilo id = %d, last meal = %zu, die time = %zu\n\n", philos->philo_id, philos->last_meal_time, philos->die_time);//
+	if (philos->is_alive == false)
+		return (0);
+	else
+	{
+		if (philos->last_meal_time > philos->die_time)
+		{
+			philos->is_alive = false;
+			elapsed = elapsed_time(philos->table->start_time);
+			printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"died\n"DEFAULT, elapsed, philos->philo_id);
+			return (0);
+		}
+		return (1);
+	}
+}
+
+void	eating(t_philos *philos)
 {
 	pthread_mutex_t	first_fork;
 	pthread_mutex_t	second_fork;
@@ -28,50 +48,80 @@ void	eat(t_philos *philos)
 		first_fork = philos->next->fork;
 		second_fork = philos->fork;
 	}
-	if (pthread_mutex_lock(&first_fork))
-		printf("Error: pthread_mutex_lock failed for philo %d\n", philos->philo_id);
-	elapsed = elapsed_time(philos->table->start_time);
-	printf("%zu %d has taken a fork\n", elapsed, philos->philo_id);
-	if (pthread_mutex_lock(&second_fork))
-		printf("Error: pthread_mutex_lock failed for philo %d\n", philos->philo_id);
-	elapsed = elapsed_time(philos->table->start_time);
-	printf("%zu %d has taken a fork\n", elapsed, philos->philo_id);
-	elapsed = elapsed_time(philos->table->start_time);
-	printf("%zu %d is eating\n", elapsed, philos->philo_id);
-	usleep(philos->eat_time * 1000);
-	if (pthread_mutex_unlock(&first_fork))
-		printf("Error: pthread_mutex_unlock failed for philo %d\n", philos->philo_id);
-	if (pthread_mutex_unlock(&second_fork))
-		printf("Error: pthread_mutex_unlock failed for philo %d\n", philos->philo_id);
+	philos->last_meal_time = elapsed_time(philos->table->start_time) - philos->last_meal_time;
+	printf("id = %d, last_meal_time before eat = %zu\n", philos->philo_id, philos->last_meal_time);
+	if (is_alive(philos))
+	{
+		if (pthread_mutex_lock(&first_fork))
+			printf("Error: pthread_mutex_lock failed for philo %d\n", philos->philo_id);
+		elapsed = elapsed_time(philos->table->start_time);
+		printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"has taken a fork\n"DEFAULT, elapsed, philos->philo_id);
+
+		if (is_alive(philos))
+		{
+			if (pthread_mutex_lock(&second_fork))
+				printf("Error: pthread_mutex_lock failed for philo %d\n", philos->philo_id);
+			elapsed = elapsed_time(philos->table->start_time);
+			printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"has taken a fork\n"DEFAULT, elapsed, philos->philo_id);
+			elapsed = elapsed_time(philos->table->start_time);
+	
+			printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"is eating\n"DEFAULT, elapsed, philos->philo_id);
+			philos->last_meal_time = 0;
+			//philos->last_meal_time = elapsed_time(philos->table->start_time) - philos->last_meal_time;
+			printf("id = %d, print last_meal_time after reassign = %zu\n", philos->philo_id, philos->last_meal_time);
+			
+			usleep(philos->eat_time * 1000);
+	
+			if (pthread_mutex_unlock(&first_fork))
+				printf("Error: pthread_mutex_unlock failed for philo %d\n", philos->philo_id);
+			if (pthread_mutex_unlock(&second_fork))
+				printf("Error: pthread_mutex_unlock failed for philo %d\n", philos->philo_id);
+		}
+	}
 }
 
-void	sleep(t_philos *philos)
+void	sleeping(t_philos *philos)
 {
-	size_t			elapsed;
+	size_t	elapsed;
 
-	elapsed = elapsed_time(philos->table->start_time);
-	printf("%zu %d is sleeping\n", elapsed, philos->philo_id);
-	usleep(philos->sleep_time * 1000);
+	philos->last_meal_time = elapsed_time(philos->table->start_time) - philos->last_meal_time;
+	printf("id = %d, last_meal_time before sleep = %zu\n", philos->philo_id, philos->last_meal_time);
+	if (is_alive(philos))
+	{
+		elapsed = elapsed_time(philos->table->start_time);
+		printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"is sleeping\n"DEFAULT, elapsed, philos->philo_id);
+		usleep(philos->sleep_time * 1000);
+	}
+	philos->last_meal_time = elapsed_time(philos->table->start_time) - philos->last_meal_time;
+	printf("id = %d, last_meal_time after sleep = %zu\n", philos->philo_id, philos->last_meal_time);
+}
+
+void	thinking(t_philos *philos)
+{
+	size_t	elapsed;
+
+	philos->last_meal_time = elapsed_time(philos->table->start_time) - philos->last_meal_time;
+	printf("id = %d, last_meal_time before think = %zu\n", philos->philo_id, philos->last_meal_time);
+	if (is_alive(philos))
+	{
+		elapsed = elapsed_time(philos->table->start_time);
+		printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"is thinking\n"DEFAULT, elapsed, philos->philo_id);
+	}
+	philos->last_meal_time = elapsed_time(philos->table->start_time) - philos->last_meal_time;
+	printf("id = %d, last_meal_time after think = %zu\n", philos->philo_id, philos->last_meal_time);
 }
 
 void	*routine(void *arg)
 {
 	t_philos	*philos = (t_philos *)arg;
-	size_t		elapsed;
-	//int		count_down;
-	//bool		has_eaten;
-	
+
 	if (philos->philo_id % 2 == 0)
 		usleep(500);
 	while (1) // or meal_count
 	{
-		eat(philos);
-		sleep(philos);
-		
-		elapsed = elapsed_time(philos->table->start_time);
-		printf("%zu %d is thinking\n", elapsed, philos->philo_id);
-		// elapsed = elapsed_time(philos->table->start_time);
-		// printf("%zu %d died\n", elapsed, philos->philo_id);
+		eating(philos);
+		sleeping(philos);
+		thinking(philos);
 	}
 	return (NULL);
 }

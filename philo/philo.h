@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/18 17:39:11 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:24:13 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <limits.h>
 # include <stdbool.h>
+# include "colors.h"
 
 typedef struct s_table	t_table;
 typedef struct s_philos	t_philos;
@@ -29,9 +30,10 @@ typedef struct s_philos
 {
 	pthread_t		philo;
 	int				philo_id;
+	bool			is_alive;
 	size_t			die_time;
-	//bool			is_alive;
 	size_t			eat_time;
+	size_t			last_meal_time;
 	size_t			sleep_time;
 	size_t			meals_count;
 	pthread_mutex_t fork;

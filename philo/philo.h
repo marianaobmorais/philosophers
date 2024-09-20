@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/19 19:24:13 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:16:58 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,23 @@ typedef struct s_philos
 	size_t			last_meal_time;
 	size_t			sleep_time;
 	size_t			meals_count;
-	pthread_mutex_t fork;
-	struct s_philos	*next;
+	pthread_mutex_t *first_fork;
+	pthread_mutex_t *second_fork;
 	t_table			*table;
 }	t_philos;
 
 typedef struct s_table
 {
-	int			philo_count;
-	size_t		start_time;
-	t_philos	*philos;
+	int				philo_count;
+	pthread_mutex_t	*fork;
+	size_t			start_time;
+	t_philos		*philos;
 }	t_table;
 
 int			check_args(int argc, char **argv);
 t_table		*init(char **argv);
 t_philos	init_philos(char **argv, t_table *table, int id);
-void		free_structs(t_philos *philos, int count);
+void		free_structs(t_table *table, t_philos *philos, int count);
 void		*routine(void *arg);
 size_t		get_time(void);
 size_t		elapsed_time(size_t start_time);

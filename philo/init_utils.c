@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:24:16 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 15:35:24 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:14:59 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static int	ft_atoi(char *ptr)
 	return (res * sign);
 }
 
-t_philos	init_philos(char **argv, t_table *table, int id)
+t_philos	init_philos(char **argv, t_table *table, int i)
 {
 	t_philos	philos;
 
-	philos.philo_id = id;
+	philos.philo_id = i + 1;
 	philos.is_alive = true;
 	philos.die_time = ft_atoi(argv[2]); // input in milliseconds
 	philos.eat_time = ft_atoi(argv[3]);
@@ -50,10 +50,24 @@ t_philos	init_philos(char **argv, t_table *table, int id)
 	philos.meals_count = 0;
 	if (argv[5])
 		philos.meals_count = ft_atoi(argv[5]);
-	pthread_mutex_init(&philos.fork, NULL);
+	if (philos.philo_id < table->philo_count)
+	{
+		philos.first_fork = &table->fork[i];
+		philos.second_fork = &table->fork[i + 1];
+	}
+	else
+	{
+		philos.first_fork = &table->fork[0];
+		philos.second_fork = &table->fork[i];
+	}
 	philos.table = table;
 	return (philos);
 }
+
+	//if (i + 1 < table->philo_count)
+	//	table->philos[i].next = &table->philos[i + 1];
+	//else
+	//	table->philos[i].next = &table->philos[0];
 
 t_table	*init(char **argv)
 {
@@ -64,18 +78,28 @@ t_table	*init(char **argv)
 	if (!table)
 		return (NULL);
 	table->philo_count = ft_atoi(argv[1]);
-	table->start_time = get_time(); //milliseconds
-	table->philos = (t_philos *)malloc(sizeof(t_philos) * (table->philo_count));
-	if (!table->philos)
-		return (NULL);
+
+	table->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (table->philo_count));
+	if (!table->fork)
+		return (free(table), NULL);
 	i = 0;
 	while (i < table->philo_count)
 	{
-		table->philos[i] = init_philos(argv, table, i + 1);
-		if (i + 1 < table->philo_count)
-			table->philos[i].next = &table->philos[i + 1];
-		else
-			table->philos[i].next = &table->philos[0];
+		pthread_mutex_init(&table->fork[i], NULL);
+		i++;
+	}
+	table->start_time = get_time(); //milliseconds
+	table->philos = (t_philos *)malloc(sizeof(t_philos) * (table->philo_count));
+	if (!table->philos)
+		return (free(table->fork), free(table), NULL);
+	i = 0;
+	while (i < table->philo_count)
+	{
+		table->philos[i] = init_philos(argv, table, i);
+		//if (i + 1 < table->philo_count)
+		//	table->philos[i].next = &table->philos[i + 1];
+		//else
+		//	table->philos[i].next = &table->philos[0];
 		i++;
 	}
 	i = 0;

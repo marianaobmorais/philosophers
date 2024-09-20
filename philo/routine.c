@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 18:57:58 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 16:32:43 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:22:48 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,19 @@ int	is_alive(t_philos *philos, size_t elapsed_meal_time)
 
 void	eating(t_philos *philos)
 {
-	pthread_mutex_t	first_fork;
-	pthread_mutex_t	second_fork;
 	size_t			elapsed;
 	size_t			elapsed_meal_time;
 
-	if (philos->philo_id < philos->next->philo_id)
-	{
-		first_fork = philos->fork;
-		second_fork = philos->next->fork;
-	}
-	else
-	{
-		first_fork = philos->next->fork;
-		second_fork = philos->fork;
-	}
 	elapsed_meal_time = elapsed_time(philos->last_meal_time);
 	if (is_alive(philos, elapsed_meal_time))
 	{
-		if (pthread_mutex_lock(&first_fork))
+		if (pthread_mutex_lock(philos->first_fork))
 			printf("Error: pthread_mutex_lock failed for philo %d\n", philos->philo_id);
 		elapsed = elapsed_time(philos->table->start_time);
 		printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"has taken a fork\n"DEFAULT, elapsed, philos->philo_id);
 		if (is_alive(philos, elapsed_meal_time))
 		{
-			if (pthread_mutex_lock(&second_fork))
+			if(pthread_mutex_lock(philos->second_fork))
 				printf("Error: pthread_mutex_lock failed for philo %d\n", philos->philo_id);
 			elapsed = elapsed_time(philos->table->start_time);
 			printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"has taken a fork\n"DEFAULT, elapsed, philos->philo_id);
@@ -66,9 +54,9 @@ void	eating(t_philos *philos)
 			printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"is eating\n"DEFAULT, elapsed, philos->philo_id);
 			philos->last_meal_time = get_time();
 			usleep(philos->eat_time * 1000);
-			if (pthread_mutex_unlock(&first_fork))
+			if (pthread_mutex_unlock(philos->first_fork))
 				printf("Error: pthread_mutex_unlock failed for philo %d\n", philos->philo_id);
-			if (pthread_mutex_unlock(&second_fork))
+			if (pthread_mutex_unlock(philos->second_fork))
 				printf("Error: pthread_mutex_unlock failed for philo %d\n", philos->philo_id);
 		}
 	}

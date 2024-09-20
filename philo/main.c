@@ -6,13 +6,13 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:45:54 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/18 18:57:50 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:15:03 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	free_structs(t_philos *philos, int count)
+void	free_structs(t_table *table, t_philos *philos, int count)
 {
 	int	i;
 
@@ -21,7 +21,8 @@ void	free_structs(t_philos *philos, int count)
 	i = 0;
 	while (i < count)
 	{
-		pthread_mutex_destroy(&philos[i].fork);
+		//free(philos->table->fork[i]);
+		pthread_mutex_destroy(&table->fork[i]);
 		i++;
 	}
 	free(philos);
@@ -45,7 +46,7 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	i = 0;
-	free_structs(table->philos, table->philo_count);
+	free_structs(table, table->philos, table->philo_count);
 	free(table);
 	return (0);
 }

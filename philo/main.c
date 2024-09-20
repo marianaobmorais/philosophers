@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:45:54 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 17:15:03 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:56:24 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ int	main(int argc, char **argv)
 	table = init(argv);
 	if (!table)
 		return (1);
+	
+	// monitoring
+	// while (1)
+	// {
+	// 	size_t	elapsed_meal_time;
+
+	// 	elapsed_meal_time = elapsed_time(table->philos[i].last_meal_time);
+	// }
+	//
 	i = 0;
 	while (i < table->philo_count)
 	{
@@ -45,7 +54,6 @@ int	main(int argc, char **argv)
 			printf("Error: pthread_join\n");
 		i++;
 	}
-	i = 0;
 	free_structs(table, table->philos, table->philo_count);
 	free(table);
 	return (0);

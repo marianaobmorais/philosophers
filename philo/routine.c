@@ -6,13 +6,13 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 18:57:58 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 18:24:21 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:56:14 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	is_alive(t_philos *philos, size_t elapsed_meal_time)
+int	is_alive(t_philos *philos, size_t elapsed_meal_time) // not sure if I need this function. Will work on monitoring and come back to it
 {
 	size_t	elapsed;
 
@@ -51,6 +51,7 @@ void	eating(t_philos *philos)
 			printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"is eating\n"DEFAULT, elapsed, philos->philo_id);
 			philos->last_meal_time = get_time();
 			usleep(philos->eat_time * 1000);
+			philos->meals_eaten += 1;
 			pthread_mutex_unlock(philos->first_fork);
 			pthread_mutex_unlock(philos->second_fork);
 		}
@@ -90,9 +91,11 @@ void	*routine(void *arg)
 
 	if (philos->philo_id % 2 == 0)
 		usleep(500); // enough time?
-	while (1) // or meal_count
+	while (1)
 	{
 		eating(philos);
+		if (philos->meals_eaten == philos->meals_to_eat)
+			break;
 		sleeping(philos);
 		thinking(philos);
 	}

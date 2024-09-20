@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:24:16 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 18:14:59 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:56:40 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ t_philos	init_philos(char **argv, t_table *table, int i)
 	philos.eat_time = ft_atoi(argv[3]);
 	philos.last_meal_time = table->start_time;
 	philos.sleep_time = ft_atoi(argv[4]);
-	philos.meals_count = 0;
+	philos.meals_to_eat = -1;
+	philos.meals_eaten = 0;
 	if (argv[5])
-		philos.meals_count = ft_atoi(argv[5]);
+		philos.meals_to_eat = ft_atoi(argv[5]);
 	if (philos.philo_id < table->philo_count)
 	{
 		philos.first_fork = &table->fork[i];
@@ -64,11 +65,6 @@ t_philos	init_philos(char **argv, t_table *table, int i)
 	return (philos);
 }
 
-	//if (i + 1 < table->philo_count)
-	//	table->philos[i].next = &table->philos[i + 1];
-	//else
-	//	table->philos[i].next = &table->philos[0];
-
 t_table	*init(char **argv)
 {
 	t_table			*table;
@@ -78,7 +74,6 @@ t_table	*init(char **argv)
 	if (!table)
 		return (NULL);
 	table->philo_count = ft_atoi(argv[1]);
-
 	table->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (table->philo_count));
 	if (!table->fork)
 		return (free(table), NULL);
@@ -88,7 +83,7 @@ t_table	*init(char **argv)
 		pthread_mutex_init(&table->fork[i], NULL);
 		i++;
 	}
-	table->start_time = get_time(); //milliseconds
+	table->start_time = get_time();
 	table->philos = (t_philos *)malloc(sizeof(t_philos) * (table->philo_count));
 	if (!table->philos)
 		return (free(table->fork), free(table), NULL);
@@ -96,10 +91,6 @@ t_table	*init(char **argv)
 	while (i < table->philo_count)
 	{
 		table->philos[i] = init_philos(argv, table, i);
-		//if (i + 1 < table->philo_count)
-		//	table->philos[i].next = &table->philos[i + 1];
-		//else
-		//	table->philos[i].next = &table->philos[0];
 		i++;
 	}
 	i = 0;

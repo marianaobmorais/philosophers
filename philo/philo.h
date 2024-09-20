@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 18:16:58 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:27:56 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ typedef struct s_philos
 	size_t			eat_time;
 	size_t			last_meal_time;
 	size_t			sleep_time;
-	size_t			meals_count;
+	int				meals_to_eat;
+	int				meals_eaten;
 	pthread_mutex_t *first_fork;
 	pthread_mutex_t *second_fork;
 	t_table			*table;

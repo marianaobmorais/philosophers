@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:24:16 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/19 19:24:40 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:35:24 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_philos	init_philos(char **argv, t_table *table, int id)
 	philos.is_alive = true;
 	philos.die_time = ft_atoi(argv[2]); // input in milliseconds
 	philos.eat_time = ft_atoi(argv[3]);
-	philos.last_meal_time = 0; //table->start_time;
+	philos.last_meal_time = table->start_time;
 	philos.sleep_time = ft_atoi(argv[4]);
 	philos.meals_count = 0;
 	if (argv[5])

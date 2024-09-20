@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:45:54 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 18:56:24 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:24:49 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,34 @@ void	free_structs(t_table *table, t_philos *philos, int count)
 	free(philos);
 }
 
+void	monitoring(t_table *table)
+{
+	size_t	elapsed_meal_time;
+	size_t	elapsed;
+	int		i;
+
+	while (1)
+	{
+		i = 0;
+		while (i < table->philo_count)
+		{
+			//mutex
+			elapsed_meal_time = elapsed_time(table->philos[i].last_meal_time);//
+			if (elapsed_meal_time > table->philos[i].die_time)
+			{
+				//mutex
+				table->philos[i].is_alive = false; //
+				elapsed = elapsed_time(table->start_time);
+				printf(YELLOW"%zu "DEFAULT"%d "RED"died\n"DEFAULT, elapsed, table->philos[i].philo_id);
+				break;
+			}
+			i++;
+		}
+		if (!table->philos[i].is_alive)
+			break;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_table	*table;
@@ -38,15 +66,7 @@ int	main(int argc, char **argv)
 	table = init(argv);
 	if (!table)
 		return (1);
-	
-	// monitoring
-	// while (1)
-	// {
-	// 	size_t	elapsed_meal_time;
-
-	// 	elapsed_meal_time = elapsed_time(table->philos[i].last_meal_time);
-	// }
-	//
+	monitoring(table);
 	i = 0;
 	while (i < table->philo_count)
 	{

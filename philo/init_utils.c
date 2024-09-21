@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:24:16 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 18:56:40 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:01:44 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ t_philos	init_philos(char **argv, t_table *table, int i)
 
 t_table	*init(char **argv)
 {
-	t_table			*table;
-	int				i;
+	t_table	*table;
+	int		i;
 
 	table = (t_table *)malloc(sizeof(t_table));
 	if (!table)
@@ -83,6 +83,7 @@ t_table	*init(char **argv)
 		pthread_mutex_init(&table->fork[i], NULL);
 		i++;
 	}
+	pthread_mutex_init(&table->check_vitals, NULL);
 	table->start_time = get_time();
 	table->philos = (t_philos *)malloc(sizeof(t_philos) * (table->philo_count));
 	if (!table->philos)

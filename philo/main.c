@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:45:54 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 20:24:49 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:02:11 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	free_structs(t_table *table, t_philos *philos, int count)
 		pthread_mutex_destroy(&table->fork[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&table->check_vitals);
 	free(philos);
 }
 
@@ -66,7 +67,7 @@ int	main(int argc, char **argv)
 	table = init(argv);
 	if (!table)
 		return (1);
-	monitoring(table);
+	//monitoring(table);
 	i = 0;
 	while (i < table->philo_count)
 	{

@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/20 18:27:56 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:00:58 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_table
 {
 	int				philo_count;
 	pthread_mutex_t	*fork;
+	pthread_mutex_t	check_vitals;
 	size_t			start_time;
 	t_philos		*philos;
 }	t_table;

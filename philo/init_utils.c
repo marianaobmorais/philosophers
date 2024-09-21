@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:24:16 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/21 16:01:44 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:17:09 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_philos	init_philos(char **argv, t_table *table, int i)
 	t_philos	philos;
 
 	philos.philo_id = i + 1;
-	philos.is_alive = true;
 	philos.die_time = ft_atoi(argv[2]); // input in milliseconds
 	philos.eat_time = ft_atoi(argv[3]);
 	philos.last_meal_time = table->start_time;
@@ -77,13 +76,13 @@ t_table	*init(char **argv)
 	table->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (table->philo_count));
 	if (!table->fork)
 		return (free(table), NULL);
+	pthread_mutex_init(&table->check_vitals, NULL);
 	i = 0;
 	while (i < table->philo_count)
 	{
 		pthread_mutex_init(&table->fork[i], NULL);
 		i++;
 	}
-	pthread_mutex_init(&table->check_vitals, NULL);
 	table->start_time = get_time();
 	table->philos = (t_philos *)malloc(sizeof(t_philos) * (table->philo_count));
 	if (!table->philos)

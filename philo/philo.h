@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/21 16:00:58 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:18:26 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef struct s_philos
 {
 	pthread_t		philo;
 	int				philo_id;
-	bool			is_alive;
 	size_t			die_time;
 	size_t			eat_time;
 	size_t			last_meal_time;
@@ -45,8 +44,9 @@ typedef struct s_philos
 typedef struct s_table
 {
 	int				philo_count;
-	pthread_mutex_t	*fork;
+	bool			alive; // do i need this?
 	pthread_mutex_t	check_vitals;
+	pthread_mutex_t	*fork;
 	size_t			start_time;
 	t_philos		*philos;
 }	t_table;

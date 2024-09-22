@@ -6,13 +6,13 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 18:57:58 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/22 19:58:00 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:31:34 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-bool	is_alive(t_philos *philos, char c)
+bool	print_message(t_philos *philos, char c)
 {
 	size_t	elapsed;
 
@@ -35,24 +35,47 @@ bool	is_alive(t_philos *philos, char c)
 	return (false);
 }
 
-void	eating(t_philos *philos)
+/* void	eating(t_philos *philos)
 {
-	if (!is_alive(philos, 0))
+	if (!print_message(philos, 0))
 		return ;
 	pthread_mutex_lock(philos->first_fork);
-	if (!is_alive(philos, 'f'))
+	if (print_message(philos, 'f'))
+		;
+	pthread_mutex_lock(philos->second_fork);
+	if (print_message(philos, 'f'))
+		;
+	if (print_message(philos, 'e'))
+		;
+	pthread_mutex_lock(&philos->table->check_clock);
+	philos->last_meal_time = get_time();
+	pthread_mutex_unlock(&philos->table->check_clock);
+	usleep(philos->eat_time * 1000);
+	if (print_message(philos, 0))
+		;
+	philos->meals_eaten += 1;
+	pthread_mutex_unlock(philos->first_fork);
+	pthread_mutex_unlock(philos->second_fork);
+} */
+
+void	eating(t_philos *philos)
+{
+	if (!print_message(philos, 0))
+		return ;
+	pthread_mutex_lock(philos->first_fork);
+	if (!print_message(philos, 'f'))
 	{
 		pthread_mutex_unlock(philos->first_fork);
 		return ;
 	}
 	pthread_mutex_lock(philos->second_fork);
-	if (!is_alive(philos, 'f'))
+	if (!print_message(philos, 'f'))
 	{
 		pthread_mutex_unlock(philos->first_fork);
 		pthread_mutex_unlock(philos->second_fork);
 		return ;
 	}
-	if (!is_alive(philos, 'e'))
+	if (!print_message(philos, 'e'))
 	{
 		pthread_mutex_unlock(philos->first_fork);
 		pthread_mutex_unlock(philos->second_fork);
@@ -62,7 +85,7 @@ void	eating(t_philos *philos)
 	philos->last_meal_time = get_time();
 	pthread_mutex_unlock(&philos->table->check_clock);
 	usleep(philos->eat_time * 1000);
-	if (!is_alive(philos, 0))
+	if (!print_message(philos, 0))
 	{
 		pthread_mutex_unlock(philos->first_fork);
 		pthread_mutex_unlock(philos->second_fork);
@@ -75,15 +98,13 @@ void	eating(t_philos *philos)
 
 void	sleeping(t_philos *philos)
 {
-	if (!is_alive(philos, 's'))
-		return ;
-	else
+	if (print_message(philos, 's'))
 		usleep(philos->sleep_time * 1000);
 }
 
 void	thinking(t_philos *philos)
 {
-	if (!is_alive(philos, 't'))
+	if (print_message(philos, 't'))
 		return ;
 }
 

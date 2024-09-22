@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 18:57:58 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/22 01:26:09 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/22 19:58:00 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@ bool	is_alive(t_philos *philos, char c)
 	size_t	elapsed;
 
 	pthread_mutex_lock(&philos->table->check_vitals);
-	if (!philos->table->all_alive)
+	if (philos->table->all_alive)
 	{
+		elapsed = elapsed_time(philos->table->start_time);
+		if (c == 'f')
+			printf(YELLOW_H"%zu "DEFAULT"%d "MAGENTA_H"has taken a fork\n"DEFAULT, elapsed, philos->philo_id);
+		if (c == 'e')
+			printf(YELLOW_H"%zu "DEFAULT"%d "MAGENTA_H"is eating\n"DEFAULT, elapsed, philos->philo_id);
+		if (c == 's')
+			printf(YELLOW_H"%zu "DEFAULT"%d "MAGENTA_H"is sleeping\n"DEFAULT, elapsed, philos->philo_id);
+		if (c == 't')
+			printf(YELLOW_H"%zu "DEFAULT"%d "MAGENTA_H"is thinking\n"DEFAULT, elapsed, philos->philo_id);
 		pthread_mutex_unlock(&philos->table->check_vitals);
-		return (false);
+		return (true);
 	}
 	pthread_mutex_unlock(&philos->table->check_vitals);
-	elapsed = elapsed_time(philos->table->start_time);
-	if (c == 'f')
-		printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"has taken a fork\n"DEFAULT, elapsed, philos->philo_id);
-	if (c == 'e')
-		printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"is eating\n"DEFAULT, elapsed, philos->philo_id);
-	if (c == 's')
-		printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"is sleeping\n"DEFAULT, elapsed, philos->philo_id);
-	if (c == 't')
-		printf(YELLOW"%zu "DEFAULT"%d "BLUE_B"is thinking\n"DEFAULT, elapsed, philos->philo_id);
-	return (true);
+	return (false);
 }
 
 void	eating(t_philos *philos)

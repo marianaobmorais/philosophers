@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:45:54 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/22 00:43:49 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/22 20:09:30 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_structs(t_table *table, t_philos *philos, int count)
 	pthread_mutex_destroy(&table->check_meals);
 	free(philos);
 	free(table->fork);
-	free(table);
+	//free(table); // if I uncomment this, I get: free(): double free detected in tcache 2. zsh: IOT instruction (core dumped)  ./philo 3 300 100 100
 }
 
 void	monitoring(t_table *table)
@@ -61,7 +61,7 @@ void	monitoring(t_table *table)
 				pthread_mutex_lock(&table->check_vitals);
 				table->all_alive = false;
 				elapsed = elapsed_time(table->start_time);
-				printf(YELLOW"%zu "DEFAULT"%d "RED"died\n"DEFAULT, elapsed, table->philos[i].philo_id);
+				printf(YELLOW_H"%zu "DEFAULT"%d "RED"died\n"DEFAULT, elapsed, table->philos[i].philo_id);
 				pthread_mutex_unlock(&table->check_vitals);
 				stop_loop = true;
 				break;

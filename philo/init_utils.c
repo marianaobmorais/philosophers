@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:24:16 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/21 23:38:05 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/22 20:11:25 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ t_philos	init_philos(char **argv, t_table *table, int i) // add to header?
 	}
 	else
 	{
-		philos.first_fork = &table->fork[0];
-		philos.second_fork = &table->fork[i];
+		philos.first_fork = &table->fork[i];
+		philos.second_fork = &table->fork[0];
 	}
 	philos.table = table;
 	return (philos);

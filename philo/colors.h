@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 17:32:57 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/19 17:46:01 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/22 19:42:10 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@
 # define BLACK "\033[0;30m"
 
 //bright colors
-# define GRAY_B "\033[0;90m"
-# define RED_B "\033[0;91m"
-# define GREEN_B "\033[0;92m"
-# define YELLOW_B "\033[0;93m"
-# define BLUE_B "\033[0;94m"
-# define MAGENTA_B "\033[0;95m"
-# define CYAN_B "\033[0;96m"
-# define WHITE_B "\033[0;97m"
+# define GRAY_H "\033[0;90m"
+# define RED_H "\033[0;91m"
+# define GREEN_H "\033[0;92m"
+# define YELLOW_H "\033[0;93m"
+# define BLUE_H "\033[0;94m"
+# define MAGENTA_H "\033[0;95m"
+# define CYAN_H "\033[0;96m"
+# define WHITE_H "\033[0;97m"
 
 # endif

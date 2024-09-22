@@ -6,7 +6,7 @@
 #    By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 16:55:40 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/18 19:13:48 by mariaoli         ###   ########.fr        #
+#    Updated: 2024/09/22 19:31:08 by mariaoli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,7 @@ SRCS = main.c \
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=thread #data races
-#CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address #leaks
+CFLAGS = -Wall -Werror -Wextra -g
 
 RM = rm -f
 

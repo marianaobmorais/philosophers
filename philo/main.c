@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:45:54 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/21 17:04:15 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/22 00:43:49 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,46 +22,55 @@ void	free_structs(t_table *table, t_philos *philos, int count)
 	while (i < count)
 	{
 		pthread_mutex_destroy(&table->fork[i]);
-		//free(philos->table->philos);
 		i++;
 	}
 	pthread_mutex_destroy(&table->check_vitals);
+	pthread_mutex_destroy(&table->check_clock);
+	pthread_mutex_destroy(&table->check_meals);
 	free(philos);
+	free(table->fork);
+	free(table);
 }
 
 void	monitoring(t_table *table)
 {
 	size_t	elapsed_meal_time;
 	size_t	elapsed;
-	bool	is_alive;
+	bool	stop_loop;
 	int		i;
 
-	printf(YELLOW_B"monitoring\n"DEFAULT);//erase later
-	is_alive = true;
+	stop_loop = false;
 	while (1)
 	{
 		i = 0;
 		while (i < table->philo_count)
 		{
-			//mutex
-			pthread_mutex_lock(&table->check_vitals);
+			pthread_mutex_lock(&table->check_meals);
+			if (table->ate_all_meals == table->philo_count)
+			{
+				stop_loop = true;
+				pthread_mutex_unlock(&table->check_meals);	
+				break;
+			}
+			pthread_mutex_unlock(&table->check_meals);	
+			pthread_mutex_lock(&table->check_clock);
 			elapsed_meal_time = elapsed_time(table->philos[i].last_meal_time);
-			pthread_mutex_unlock(&table->check_vitals);
+			pthread_mutex_unlock(&table->check_clock);
 			if (elapsed_meal_time > table->philos[i].die_time)
 			{
-				is_alive = false;
-				printf("monitoring elapse_meal_time = %zu\n", elapsed_meal_time);
+				pthread_mutex_lock(&table->check_vitals);
+				table->all_alive = false;
 				elapsed = elapsed_time(table->start_time);
 				printf(YELLOW"%zu "DEFAULT"%d "RED"died\n"DEFAULT, elapsed, table->philos[i].philo_id);
+				pthread_mutex_unlock(&table->check_vitals);
+				stop_loop = true;
 				break;
 			}
 			i++;
 		}
-		//if (!table->philos[i].is_alive)
-		if (!is_alive)
+		if (stop_loop)
 			break;
 	}
-	return ; // erase later
 }
 
 int	main(int argc, char **argv)

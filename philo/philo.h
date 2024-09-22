@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/21 16:18:26 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/21 23:34:55 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,13 @@ typedef struct s_philos
 typedef struct s_table
 {
 	int				philo_count;
-	bool			alive; // do i need this?
-	pthread_mutex_t	check_vitals;
-	pthread_mutex_t	*fork;
+	bool			all_alive;
+	int				ate_all_meals; //philos who ate all meals determined in argv[5]
 	size_t			start_time;
+	pthread_mutex_t	check_vitals;
+	pthread_mutex_t	check_meals;
+	pthread_mutex_t	check_clock;
+	pthread_mutex_t	*fork;
 	t_philos		*philos;
 }	t_table;
 

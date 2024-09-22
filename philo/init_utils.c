@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:24:16 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/21 16:17:09 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/21 23:38:05 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ static int	ft_atoi(char *ptr)
 	return (res * sign);
 }
 
-t_philos	init_philos(char **argv, t_table *table, int i)
+t_philos	init_philos(char **argv, t_table *table, int i) // add to header?
 {
 	t_philos	philos;
 
 	philos.philo_id = i + 1;
-	philos.die_time = ft_atoi(argv[2]); // input in milliseconds
+	philos.die_time = ft_atoi(argv[2]);
 	philos.eat_time = ft_atoi(argv[3]);
 	philos.last_meal_time = table->start_time;
 	philos.sleep_time = ft_atoi(argv[4]);
@@ -64,6 +64,21 @@ t_philos	init_philos(char **argv, t_table *table, int i)
 	return (philos);
 }
 
+void	init_mutexes(t_table *table) // add to header?
+{
+	int	i;
+
+	pthread_mutex_init(&table->check_vitals, NULL);
+	pthread_mutex_init(&table->check_clock, NULL);
+	pthread_mutex_init(&table->check_meals, NULL);
+	i = 0;
+	while (i < table->philo_count)
+	{
+		pthread_mutex_init(&table->fork[i], NULL);
+		i++;
+	}
+}
+
 t_table	*init(char **argv)
 {
 	t_table	*table;
@@ -73,20 +88,16 @@ t_table	*init(char **argv)
 	if (!table)
 		return (NULL);
 	table->philo_count = ft_atoi(argv[1]);
+	table->all_alive = true;
+	table->ate_all_meals = 0;
+	table->start_time = get_time();
 	table->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (table->philo_count));
 	if (!table->fork)
 		return (free(table), NULL);
-	pthread_mutex_init(&table->check_vitals, NULL);
-	i = 0;
-	while (i < table->philo_count)
-	{
-		pthread_mutex_init(&table->fork[i], NULL);
-		i++;
-	}
-	table->start_time = get_time();
 	table->philos = (t_philos *)malloc(sizeof(t_philos) * (table->philo_count));
 	if (!table->philos)
-		return (free(table->fork), free(table), NULL);
+		return (free(table->fork), free(table), NULL);	
+	init_mutexes(table);
 	i = 0;
 	while (i < table->philo_count)
 	{

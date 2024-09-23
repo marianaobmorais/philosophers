@@ -6,7 +6,7 @@
 #    By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 16:55:40 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/23 18:40:31 by mariaoli         ###   ########.fr        #
+#    Updated: 2024/09/23 19:25:54 by mariaoli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,14 @@ SRCS = main.c \
 		init_utils.c \
 		routine.c \
 		actions.c \
-		monitoring.c \
-		print_message.c
+		actions_utils.c \
+		monitoring.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=thread
+#CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
 RM = rm -f
 

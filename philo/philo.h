@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 16:13:59 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:40:50 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ typedef struct s_table
 }	t_table;
 
 int			check_args(int argc, char **argv);
+int			ft_atoi(char *ptr);
 t_table		*init(char **argv);
 void		*routine(void *arg);
+bool		print_message(t_philos *philos, char c);
 void		eating(t_philos *philos);
 void		sleeping(t_philos *philos);
 void		thinking(t_philos *philos);

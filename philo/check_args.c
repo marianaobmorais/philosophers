@@ -6,11 +6,36 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:14:59 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 15:42:42 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:19:33 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_atoi(char *ptr)
+{
+	int	i;
+	int	sign;
+	int	res;
+
+	i = 0;
+	sign = 1;
+	res = 0;
+	while (ptr[i] == 32 || (ptr[i] >= 9 && ptr[i] <= 13))
+		i++;
+	if (ptr[i] == '-' || ptr[i] == '+')
+	{
+		if (ptr[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (ptr[i] != '\0' && (ptr[i] >= 48 && ptr[i] <= 57))
+	{
+		res = res * 10 + (ptr[i] - 48);
+		i++;
+	}
+	return (res * sign);
+}
 
 static int	ft_isdigit(char **argv)
 {

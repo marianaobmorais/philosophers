@@ -6,34 +6,11 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:47:11 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 16:54:50 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:39:54 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static bool	print_message(t_philos *philos, char c)
-{
-	size_t	elapsed;
-
-	pthread_mutex_lock(&philos->table->check_vitals);
-	if (philos->table->all_alive)
-	{
-		elapsed = elapsed_time(philos->table->start_time);
-		if (c == 'f')
-			printf(GRAY MESSAGE_FORK DEFAULT, elapsed, philos->philo_id);
-		if (c == 'e')
-			printf(MAGENTA_H MESSAGE_EAT DEFAULT, elapsed, philos->philo_id);
-		if (c == 's')
-			printf(BLUE_H MESSAGE_SLEEP DEFAULT, elapsed, philos->philo_id);
-		if (c == 't')
-			printf(YELLOW_H MESSAGE_THINK DEFAULT, elapsed, philos->philo_id);
-		pthread_mutex_unlock(&philos->table->check_vitals);
-		return (true);
-	}
-	pthread_mutex_unlock(&philos->table->check_vitals);
-	return (false);
-}
 
 static void	unlock_forks(t_philos *philos, int count)
 {
@@ -42,8 +19,37 @@ static void	unlock_forks(t_philos *philos, int count)
 		pthread_mutex_unlock(philos->second_fork);
 }
 
+static void	fork_order(t_philos *philos, int i)
+{
+	if (philos->philo_id % 2 == 1)
+	{
+		if (philos->philo_id == philos->table->philo_count)
+		{
+			philos->first_fork = &philos->table->fork[i];
+			philos->second_fork = &philos->table->fork[0];
+		}
+		else
+		{
+			philos->first_fork = &philos->table->fork[i];
+			philos->second_fork = &philos->table->fork[i + 1];
+		}
+		return ;
+	}
+	if (philos->philo_id == philos->table->philo_count)
+	{
+		philos->first_fork = &philos->table->fork[0];
+		philos->second_fork = &philos->table->fork[i];
+	}
+	else
+	{
+		philos->first_fork = &philos->table->fork[i + 1];
+		philos->second_fork = &philos->table->fork[i];
+	}
+}
+
 void	eating(t_philos *philos)
 {
+	fork_order(philos, philos->philo_id - 1);
 	if (!print_message(philos, 0))
 		return ;
 	pthread_mutex_lock(philos->first_fork);

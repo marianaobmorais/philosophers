@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:47:11 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 16:29:54 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:54:50 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	eating(t_philos *philos)
 		return ;
 	pthread_mutex_lock(philos->first_fork);
 	if (!print_message(philos, 'f'))
+		return (unlock_forks(philos, 1));
+	if (philos->second_fork == philos->first_fork)
 		return (unlock_forks(philos, 1));
 	pthread_mutex_lock(philos->second_fork);
 	if (!print_message(philos, 'f'))

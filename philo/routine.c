@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 18:57:58 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 16:30:47 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:54:04 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	*routine(void *arg)
 	while (1)
 	{
 		eating(philos);
+		if (philos->second_fork == philos->first_fork)//
+			break ;//
 		stop_loop = meal_check(philos);
 		if (stop_loop)
 			break ;

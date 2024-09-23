@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/21 23:34:55 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/23 16:13:59 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@
 # include <stdbool.h>
 # include "colors.h"
 
+# define ERR_ARG_NUM "Error: Incorrect number of arguments\n"
+# define ERR_ARG_INT "Error: Arguments should only contain digits\n"
+# define ERR_ARG_LIM "Error: Argument values must be between 1 and INT_MAX\n"
+
+# define MESSAGE_FORK "%zu %d has taken a fork\n"
+# define MESSAGE_EAT "%zu %d is eating\n"
+# define MESSAGE_SLEEP "%zu %d is sleeping\n"
+# define MESSAGE_THINK "%zu %d is thinking\n"
+# define MESSAGE_DEATH "%zu %d died\n"
+
 typedef struct s_table	t_table;
 typedef struct s_philos	t_philos;
 
@@ -36,8 +46,8 @@ typedef struct s_philos
 	size_t			sleep_time;
 	int				meals_to_eat;
 	int				meals_eaten;
-	pthread_mutex_t *first_fork;
-	pthread_mutex_t *second_fork;
+	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*second_fork;
 	t_table			*table;
 }	t_philos;
 
@@ -45,7 +55,7 @@ typedef struct s_table
 {
 	int				philo_count;
 	bool			all_alive;
-	int				ate_all_meals; //philos who ate all meals determined in argv[5]
+	int				ate_all_meals;
 	size_t			start_time;
 	pthread_mutex_t	check_vitals;
 	pthread_mutex_t	check_meals;
@@ -56,10 +66,13 @@ typedef struct s_table
 
 int			check_args(int argc, char **argv);
 t_table		*init(char **argv);
-t_philos	init_philos(char **argv, t_table *table, int id);
-void		free_structs(t_table *table, t_philos *philos, int count);
 void		*routine(void *arg);
+void		eating(t_philos *philos);
+void		sleeping(t_philos *philos);
+void		thinking(t_philos *philos);
 size_t		get_time(void);
 size_t		elapsed_time(size_t start_time);
+void		monitoring(t_table *table);
+void		free_structs(t_table *table, t_philos *philos, int count);
 
 #endif

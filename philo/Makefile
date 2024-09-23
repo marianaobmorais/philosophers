@@ -6,7 +6,7 @@
 #    By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 16:55:40 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/22 19:31:08 by mariaoli         ###   ########.fr        #
+#    Updated: 2024/09/23 15:47:49 by mariaoli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ SRCS = main.c \
 		check_args.c \
 		time_utils.c \
 		init_utils.c \
-		routine.c
+		routine.c \
+		actions.c \
+		monitoring.c
 
 OBJS = $(SRCS:.c=.o)
 

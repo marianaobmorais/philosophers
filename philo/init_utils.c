@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:24:16 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/22 20:11:25 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:44:26 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,22 @@ static int	ft_atoi(char *ptr)
 	return (res * sign);
 }
 
-t_philos	init_philos(char **argv, t_table *table, int i) // add to header?
+static void	init_mutexes(t_table *table)
+{
+	int	i;
+
+	pthread_mutex_init(&table->check_vitals, NULL);
+	pthread_mutex_init(&table->check_clock, NULL);
+	pthread_mutex_init(&table->check_meals, NULL);
+	i = 0;
+	while (i < table->philo_count)
+	{
+		pthread_mutex_init(&table->fork[i], NULL);
+		i++;
+	}
+}
+
+static t_philos	philos_iter(char **argv, t_table *table, int i)
 {
 	t_philos	philos;
 
@@ -64,17 +79,22 @@ t_philos	init_philos(char **argv, t_table *table, int i) // add to header?
 	return (philos);
 }
 
-void	init_mutexes(t_table *table) // add to header?
+static void	init_philos(t_table *table, char **argv)
 {
 	int	i;
 
-	pthread_mutex_init(&table->check_vitals, NULL);
-	pthread_mutex_init(&table->check_clock, NULL);
-	pthread_mutex_init(&table->check_meals, NULL);
 	i = 0;
 	while (i < table->philo_count)
 	{
-		pthread_mutex_init(&table->fork[i], NULL);
+		table->philos[i] = philos_iter(argv, table, i);
+		i++;
+	}
+	i = 0;
+	while (i < table->philo_count)
+	{
+		if (pthread_create(&table->philos[i].philo, NULL,
+				&routine, &table->philos[i]) != 0)
+			printf("Error: pthread_create\n");
 		i++;
 	}
 }
@@ -82,7 +102,6 @@ void	init_mutexes(t_table *table) // add to header?
 t_table	*init(char **argv)
 {
 	t_table	*table;
-	int		i;
 
 	table = (t_table *)malloc(sizeof(t_table));
 	if (!table)
@@ -91,25 +110,15 @@ t_table	*init(char **argv)
 	table->all_alive = true;
 	table->ate_all_meals = 0;
 	table->start_time = get_time();
-	table->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (table->philo_count));
+	table->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* (table->philo_count));
 	if (!table->fork)
 		return (free(table), NULL);
-	table->philos = (t_philos *)malloc(sizeof(t_philos) * (table->philo_count));
+	table->philos = (t_philos *)malloc(sizeof(t_philos)
+			* (table->philo_count));
 	if (!table->philos)
-		return (free(table->fork), free(table), NULL);	
+		return (free(table->fork), free(table), NULL);
 	init_mutexes(table);
-	i = 0;
-	while (i < table->philo_count)
-	{
-		table->philos[i] = init_philos(argv, table, i);
-		i++;
-	}
-	i = 0;
-	while (i < table->philo_count)
-	{
-		if (pthread_create(&table->philos[i].philo, NULL, &routine, &table->philos[i]) != 0)
-			printf("Error: pthread_create\n");
-		i++;
-	}
+	init_philos(table, argv);
 	return (table);
 }

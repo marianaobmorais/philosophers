@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 17:32:57 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/22 19:42:10 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:29:24 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define BLUE "\033[0;34m"
 # define MAGENTA "\033[0;35m"
 # define CYAN "\033[0;36m"
-# define WHITE "\033[0;37m"
+# define GRAY "\033[0;37m"
 # define BLACK "\033[0;30m"
 
 //bright colors
@@ -32,6 +32,6 @@
 # define BLUE_H "\033[0;94m"
 # define MAGENTA_H "\033[0;95m"
 # define CYAN_H "\033[0;96m"
-# define WHITE_H "\033[0;97m"
+# define WHITE "\033[0;97m"
 
-# endif
+#endif

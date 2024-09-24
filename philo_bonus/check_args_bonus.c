@@ -6,11 +6,11 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:14:59 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/24 14:18:05 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:29:10 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	ft_atoi(char *ptr)
 {

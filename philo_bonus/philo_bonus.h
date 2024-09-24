@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/24 14:51:53 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:59:33 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ typedef struct s_philos
 
 typedef struct s_table
 {
-	int			philo_count;
-	bool		all_alive;
-	int			ate_all_meals;
-	size_t		start_time;
-	sem_t		fork_utensil;
+	int		philo_count;
+	bool	all_alive;
+	int		ate_all_meals;
+	size_t	start_time;
+	sem_t	*available;
+	sem_t	*unavailable;
 	t_philos	*philos;
 }	t_table;
 

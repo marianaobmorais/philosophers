@@ -6,7 +6,7 @@
 #    By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/24 14:00:03 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/24 14:52:25 by mariaoli         ###   ########.fr        #
+#    Updated: 2024/09/24 15:30:53 by mariaoli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJS = $(SRCS:.c=.o)
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -g #fsanitize=thread
 
-RM = rm -fclean
+RM = rm -f
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)

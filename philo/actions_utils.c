@@ -6,13 +6,13 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 18:40:07 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 19:25:21 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:43:31 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_sleep(t_philos *philos, size_t interval)
+void	ft_wait(t_philos *philos, size_t interval)
 {
 	size_t	start;
 
@@ -26,7 +26,7 @@ void	ft_sleep(t_philos *philos, size_t interval)
 			break ;
 		}
 		pthread_mutex_unlock(&philos->table->check_vitals);
-		//usleep(500); // why do I see everyone using this?
+		usleep(500);
 	}
 }
 

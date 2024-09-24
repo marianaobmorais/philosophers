@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:47:11 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 19:24:32 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:44:09 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	eating(t_philos *philos)
 	pthread_mutex_lock(&philos->table->check_clock);
 	philos->last_meal_time = get_time();
 	pthread_mutex_unlock(&philos->table->check_clock);
-	ft_sleep(philos, philos->eat_time);
+	ft_wait(philos, philos->eat_time);
 	if (!print_message(philos, 0))
 		return (unlock_forks(philos, 2));
 	philos->meals_eaten += 1;
@@ -75,7 +75,7 @@ void	eating(t_philos *philos)
 void	sleeping(t_philos *philos)
 {
 	if (print_message(philos, 's'))
-		ft_sleep(philos, philos->sleep_time);
+		ft_wait(philos, philos->sleep_time);
 }
 
 void	thinking(t_philos *philos)

@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 19:23:51 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:43:53 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int			ft_atoi(char *ptr);
 t_table		*init(char **argv);
 void		*routine(void *arg);
 bool		print_message(t_philos *philos, char c);
-void		ft_sleep(t_philos *philos, size_t interval);
+void		ft_wait(t_philos *philos, size_t interval);
 void		eating(t_philos *philos);
 void		sleeping(t_philos *philos);
 void		thinking(t_philos *philos);

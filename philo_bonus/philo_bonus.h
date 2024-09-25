@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/24 18:59:33 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/25 01:04:30 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ typedef struct s_table
 	bool	all_alive;
 	int		ate_all_meals;
 	size_t	start_time;
-	sem_t	*available;
-	sem_t	*unavailable;
+	sem_t	*forks;
 	t_philos	*philos;
 }	t_table;
 

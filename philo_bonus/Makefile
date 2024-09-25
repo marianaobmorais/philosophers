@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+         #
+#    By: marianamorais <marianamorais@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/24 14:00:03 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/24 15:30:53 by mariaoli         ###   ########.fr        #
+#    Updated: 2024/09/25 22:03:15 by marianamora      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,15 @@ NAME = philo_bonus
 
 SRCS = main_bonus.c \
 		check_args_bonus.c \
-		time_utils_bonus.c
+		time_utils_bonus.c \
+		init_bonus.c \
+		philo_process_bonus.c \
+		monitoring_bonus.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g #fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra -g
 
 RM = rm -f
 

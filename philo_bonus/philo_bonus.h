@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/25 01:04:30 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/25 23:10:55 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_philos
 typedef struct s_table
 {
 	int		philo_count;
-	bool	all_alive;
+	sem_t	*all_alive;
 	int		ate_all_meals;
 	size_t	start_time;
 	sem_t	*forks;
@@ -59,7 +59,14 @@ typedef struct s_table
 
 int		check_args(int argc, char **argv);
 int		ft_atoi(char *ptr);
+t_table	*init(char **argv);
+void	init_philos(t_philos *philos, t_table *table, int i, char **argv);
 size_t	elapsed_time(size_t start_time);
 size_t	get_time(void);
+void	philo_process(t_philos *philos);
+void	eating(t_philos *philos);
+void	sleeping(t_philos *philos);
+void	thinking(t_philos *philos);
+void	monitoring(t_table *table);
 
 #endif

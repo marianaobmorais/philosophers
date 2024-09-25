@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+         #
+#    By: marianamorais <marianamorais@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 16:55:40 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/24 13:57:10 by mariaoli         ###   ########.fr        #
+#    Updated: 2024/09/25 21:48:00 by marianamora      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = philo
 SRCS = main.c \
 		check_args.c \
 		time_utils.c \
-		init_utils.c \
+		init.c \
 		routine.c \
 		actions.c \
 		actions_utils.c \

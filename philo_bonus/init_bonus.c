@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:50:25 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/25 23:34:22 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/26 14:09:50 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,19 @@ t_table	*init(char **argv)
 	if (!table)
 		return (NULL);
 	table->philo_count = ft_atoi(argv[1]);
-	// table->all_alive = sem_open("/all_alive_sem", O_CREAT, 0644, 1);
-	// if (table->all_alive == SEM_FAILED)
-	// 	return (free(table), NULL);
 	table->ate_all_meals = 0;
 	table->start_time = get_time();
-	table->forks = sem_open("/forks_sem", O_CREAT, 0644, table->philo_count);
+
+	//semaphores open
+	sem_unlink("all_alive_sem");
+	table->all_alive = sem_open("all_alive_sem", O_CREAT, 0644, 1);
+	if (table->all_alive == SEM_FAILED)
+		return (free(table), NULL);
+	sem_unlink("forks_sem");
+	table->forks = sem_open("forks_sem", O_CREAT, 0644, table->philo_count);
 	if (table->forks == SEM_FAILED)
 		return (free(table), NULL);
+
 	table->philos = (t_philos *)malloc(sizeof(t_philos) * table->philo_count);
 	if (!table->philos)
 		return (free(table), NULL);

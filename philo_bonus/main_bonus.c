@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:15:02 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/25 23:38:44 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/26 14:10:47 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	free_struct(t_table *table)
 {
 	sem_close(table->forks); // you should call sem_close before sem_unlink to close the semaphore handles, and then unlink them to remove them from the system.
-	//sem_close(table->all_alive);
-	sem_unlink("/forks_sem"); 
-	//sem_unlink("/all_alive_sem");
+	sem_close(table->all_alive); //
+	sem_unlink("forks_sem"); 
+	sem_unlink("/all_alive_sem"); //
 	free(table);
 }
 
@@ -45,13 +45,8 @@ int	main(int argc, char **argv)
 	pid = fork();
 	if (pid == 0)
 		monitoring(table);
-	i = 0;
-	while (i < table->philo_count)
-	{
-		printf(BLUE"waiting pid...\n"DEFAULT); //
-		waitpid(-1, NULL, 0);
-		i++;
-	}
+	while (waitpid(-1, NULL, 0) > 0) // need to change NULL to &status??
+		;
 	free_struct(table);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/25 23:10:55 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/26 14:15:29 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <sys/stat.h>        /* For mode constants */
 #include <semaphore.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 # define ERR_ARG_NUM "Error: Incorrect number of arguments\n"
 # define ERR_ARG_INT "Error: Arguments should only contain digits\n"

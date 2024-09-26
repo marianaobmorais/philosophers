@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:54:13 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/25 23:37:34 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/26 14:12:09 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,30 @@ void	eating(t_philos *philos)
 
 	sem_wait(philos->table->forks);
 
-	//sem_wait(philos->table->all_alive);
+	sem_wait(philos->table->all_alive); //
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(GRAY"%zu %d got a fork\n"DEFAULT, elapsed, philos->philo_id);
-	//sem_post(philos->table->all_alive);
+	sem_post(philos->table->all_alive); //
 
 	sem_wait(philos->table->forks);
 
-	//sem_wait(philos->table->all_alive);
+	sem_wait(philos->table->all_alive); //
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(GRAY"%zu %d got a fork\n"DEFAULT, elapsed, philos->philo_id);
-	//sem_post(philos->table->all_alive);
+	sem_post(philos->table->all_alive); //
 
 	
-	//sem_wait(philos->table->all_alive);
+	sem_wait(philos->table->all_alive); //
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(MAGENTA"%zu %d is eating\n"DEFAULT, elapsed, philos->philo_id);
 	philos->last_meal_time = get_time();
-	//sem_post(philos->table->all_alive);
+	sem_post(philos->table->all_alive); //
 	
 	usleep(philos->eat_time * 1000);
 	
-	//sem_wait(philos->table->all_alive);
+	sem_wait(philos->table->all_alive); //
 	philos->meals_eaten += 1;
-	//sem_post(philos->table->all_alive);
+	sem_post(philos->table->all_alive); //
 	
 	sem_post(philos->table->forks);
 	sem_post(philos->table->forks);
@@ -51,21 +51,21 @@ void	sleeping(t_philos *philos)
 {
 	size_t	elapsed;
 
-	//sem_wait(philos->table->all_alive);
+	sem_wait(philos->table->all_alive); //
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(BLUE"%zu %d is sleeping\n"DEFAULT, elapsed, philos->philo_id);
 	usleep(philos->sleep_time * 1000);
-	//sem_post(philos->table->all_alive);
+	sem_post(philos->table->all_alive); //
 }
 
 void	thinking(t_philos *philos)
 {
 	size_t	elapsed;
 
-	//sem_wait(philos->table->all_alive);
+	sem_wait(philos->table->all_alive); //
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(YELLOW"%zu %d is thinking\n"DEFAULT, elapsed, philos->philo_id);
-	//sem_post(philos->table->all_alive);
+	sem_post(philos->table->all_alive); //
 }
 
 void	philo_process(t_philos *philos)

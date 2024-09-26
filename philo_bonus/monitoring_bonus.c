@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:56:14 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/25 23:36:26 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/26 14:21:11 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ static bool	count_down(t_table *table, int i)
 	elapsed_meal_time = elapsed_time(table->philos[i].last_meal_time);
 	if (elapsed_meal_time > table->philos[i].die_time)
 	{
-		//sem_wait(table->all_alive);
+		sem_wait(table->all_alive); //
 		elapsed = elapsed_time(table->start_time);
 		printf(RED"%zu %d died\n"DEFAULT, elapsed, table->philos[i].philo_id);
-		//sem_post(table->all_alive);
+		kill(0, SIGKILL); // kill processes?
+		//sem_post(table->all_alive); //
 		return (true);
 	}
 	return (false);

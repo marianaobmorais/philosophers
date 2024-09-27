@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/27 01:08:41 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 10:46:48 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <stdbool.h>
 # include "colors.h"
 
-#include <fcntl.h>           /* For O_* constants */
-#include <sys/stat.h>        /* For mode constants */
+#include <fcntl.h>
+//#include <sys/stat.h>        /* For mode constants */
 #include <semaphore.h>
 #include <sys/wait.h>
 #include <signal.h>
@@ -40,7 +40,6 @@ typedef struct s_philos
 {
 	pthread_t	monitor_thread;
 	pthread_t	stop_process_thread;
-//	pthread_t	is_full_thread;
 	int			philo_id;
 	bool		is_alive;
 	bool		is_full;
@@ -59,14 +58,12 @@ typedef struct s_table
 	size_t		start_time;
 	sem_t		*forks_sem;
 	sem_t		*stop_sem;
-	sem_t		*is_full_sem;
 	t_philos	*philos;
 }	t_table;
 
 int		check_args(int argc, char **argv);
 int		ft_atoi(char *ptr);
 t_table	*init(char **argv);
-void	init_philos(t_philos *philos, t_table *table, int i, char **argv);
 size_t	elapsed_time(size_t start_time);
 size_t	get_time(void);
 void	philo_process(t_philos *philos);

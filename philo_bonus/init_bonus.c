@@ -6,13 +6,13 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:50:25 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/27 01:08:17 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 10:36:26 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	init_philos(t_philos *philos, t_table *table, int i, char **argv)
+static void	init_philos(t_philos *philos, t_table *table, int i, char **argv)
 {
 	philos->philo_id = i + 1;
 	philos->is_alive = true;
@@ -28,6 +28,19 @@ void	init_philos(t_philos *philos, t_table *table, int i, char **argv)
 	philos->table = table;
 }
 
+static int	init_sem(t_table *table)
+{
+	sem_unlink("forks_sem");
+	table->forks_sem = sem_open("forks_sem", O_CREAT, 0644, table->philo_count);
+	if (table->forks_sem == SEM_FAILED)
+		return (0);
+	sem_unlink("stop_sem");
+	table->stop_sem = sem_open("stop_sem", O_CREAT, 0644, 0);
+	if (table->stop_sem == SEM_FAILED)
+		return (0);
+	return (1);
+}
+
 t_table	*init(char **argv)
 {
 	t_table	*table;
@@ -38,21 +51,8 @@ t_table	*init(char **argv)
 		return (NULL);
 	table->philo_count = ft_atoi(argv[1]);
 	table->start_time = get_time();
-
-	//semaphores open
-	sem_unlink("forks_sem");
-	table->forks_sem = sem_open("forks_sem", O_CREAT, 0644, table->philo_count);
-	if (table->forks_sem == SEM_FAILED)
+	if (!init_sem(table))
 		return (free(table), NULL);
-	sem_unlink("stop_sem");
-	table->stop_sem = sem_open("stop_sem", O_CREAT, 0644, 0);
-	if (table->stop_sem == SEM_FAILED)
-		return (free(table), NULL);
-	sem_unlink("is_full_sem");
-	table->is_full_sem = sem_open("is_full_sem", O_CREAT, 0644, 0);
-	if (table->is_full_sem == SEM_FAILED)
-		return (free(table), NULL);
-
 	table->philos = (t_philos *)malloc(sizeof(t_philos) * table->philo_count);
 	if (!table->philos)
 		return (free(table), NULL);

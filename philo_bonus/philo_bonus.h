@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/27 12:11:14 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 15:51:29 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,20 @@
 # include <string.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <fcntl.h>
+# include <semaphore.h>
+# include <sys/wait.h>
 # include "colors.h"
-
-#include <fcntl.h>
-//#include <sys/stat.h>        /* For mode constants */
-#include <semaphore.h>
-#include <sys/wait.h>
-#include <signal.h>
 
 # define ERR_ARG_NUM "Error: Incorrect number of arguments\n"
 # define ERR_ARG_INT "Error: Arguments should only contain digits\n"
 # define ERR_ARG_LIM "Error: Argument values must be between 1 and INT_MAX\n"
+
+# define MESSAGE_FORK "%zu %d has taken a fork\n"
+# define MESSAGE_EAT "%zu %d is eating\n"
+# define MESSAGE_SLEEP "%zu %d is sleeping\n"
+# define MESSAGE_THINK "%zu %d is thinking\n"
+# define MESSAGE_DEATH "%zu %d died\n"
 
 # define ALL_CHILD -1
 
@@ -73,6 +76,12 @@ void	philo_process(t_philos *philos);
 void	eating(t_philos *philos);
 void	sleeping(t_philos *philos);
 void	thinking(t_philos *philos);
-//void	monitoring(t_table *table);
+void	*monitoring(void *arg);
+void	eating(t_philos *philos);
+void	sleeping(t_philos *philos);
+void	thinking(t_philos *philos);
+void	*stop_process(void *arg);
+void	create_threads(t_philos *philos);
+void	join_threads(t_philos *philos);
 
 #endif

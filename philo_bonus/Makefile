@@ -6,7 +6,7 @@
 #    By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/24 14:00:03 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/27 15:05:01 by mariaoli         ###   ########.fr        #
+#    Updated: 2024/09/27 16:03:23 by mariaoli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,10 @@ SRCS = main_bonus.c \
 		time_utils_bonus.c \
 		init_bonus.c \
 		philo_process_bonus.c \
-		monitoring_bonus.c
+		monitoring_bonus.c \
+		actions_bonus.c \
+		thread_functions_bonus.c \
+		thread_utils_bonus.c
 
 OBJS = $(SRCS:.c=.o)
 

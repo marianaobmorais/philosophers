@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:15:02 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/27 14:36:25 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:14:55 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_struct(t_table *table, t_philos *philos)
 	sem_close(table->forks_sem);
 	sem_close(table->stop_sem);
 	sem_close(table->monitor_sem);
-	sem_unlink("forks_sem"); 
+	sem_unlink("forks_sem");
 	sem_unlink("stop_sem");
 	sem_unlink("monitor_sem");
 	free(philos);

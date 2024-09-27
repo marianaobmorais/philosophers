@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:54:13 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/27 11:19:18 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 11:42:39 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,30 @@ void	eating(t_philos *philos)
 	sem_wait(philos->table->forks_sem);
 
 	if (!philos->is_alive || philos->is_full) // check if possible data race
+	{
+		sem_post(philos->table->forks_sem);
 		return ;
-	
+	}
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(GRAY"%zu %d got a fork\n"DEFAULT, elapsed, philos->philo_id);
 
 	sem_wait(philos->table->forks_sem);
 
 	if (!philos->is_alive || philos->is_full) // check if possible data race
+	{
+		sem_post(philos->table->forks_sem);
+		sem_post(philos->table->forks_sem);
 		return ;
-		
+	}
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(GRAY"%zu %d got a fork\n"DEFAULT, elapsed, philos->philo_id);
 	
 	if (!philos->is_alive || philos->is_full) // check if possible data race
+	{
+		sem_post(philos->table->forks_sem);
+		sem_post(philos->table->forks_sem);
 		return ;
+	}
 	
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(MAGENTA"%zu %d is eating\n"DEFAULT, elapsed, philos->philo_id);
@@ -44,7 +53,11 @@ void	eating(t_philos *philos)
 	usleep(philos->eat_time * 1000);
 
 	if (!philos->is_alive || philos->is_full) // check if possible data race
+	{
+		sem_post(philos->table->forks_sem);
+		sem_post(philos->table->forks_sem);
 		return ;
+	}
 		
 	philos->meals_eaten += 1;
 	
@@ -140,6 +153,7 @@ void	philo_process(t_philos *philos)
 		usleep(500);
 	while (1)
 	{
+		printf("a Philosopher %d process loop.\n", philos->philo_id);
 		eating(philos);
 		if (philos->meals_eaten == philos->meals_to_eat)
 		{
@@ -147,13 +161,17 @@ void	philo_process(t_philos *philos)
 			philos->is_full = true; // check if possible data race
 			break ;
 		}
+		printf("b Philosopher %d process loop.\n", philos->philo_id);
 		sleeping(philos);
+		printf("c Philosopher %d process loop.\n", philos->philo_id);
 		thinking(philos);
 		if (!philos->is_alive) // check if possible data race
 		{
-			printf("Philosopher %d detected as dead in process loop about to break loop.\n", philos->philo_id);
+			printf(RED"Philosopher %d detected as dead in process loop about to break loop.\n"DEFAULT, philos->philo_id);
 			break ;
 		}
+		printf("d Philosopher %d process loop.\n", philos->philo_id);
+		usleep(500);
 	}
 	if (pthread_join(philos->monitor_thread, NULL) != 0)
 		printf("Error: pthread_join\n");

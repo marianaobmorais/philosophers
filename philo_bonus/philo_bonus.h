@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/27 10:46:48 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 12:11:14 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define ERR_ARG_INT "Error: Arguments should only contain digits\n"
 # define ERR_ARG_LIM "Error: Argument values must be between 1 and INT_MAX\n"
 
+# define ALL_CHILD -1
+
 typedef struct s_table	t_table;
 typedef struct s_philos	t_philos;
 
@@ -58,6 +60,7 @@ typedef struct s_table
 	size_t		start_time;
 	sem_t		*forks_sem;
 	sem_t		*stop_sem;
+	sem_t		*monitor_sem;
 	t_philos	*philos;
 }	t_table;
 

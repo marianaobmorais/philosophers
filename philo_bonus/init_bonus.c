@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:50:25 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/27 10:36:26 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 12:12:23 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ static int	init_sem(t_table *table)
 	sem_unlink("stop_sem");
 	table->stop_sem = sem_open("stop_sem", O_CREAT, 0644, 0);
 	if (table->stop_sem == SEM_FAILED)
+		return (0);
+	sem_unlink("monitor_sem");
+	table->monitor_sem = sem_open("monitor_sem", O_CREAT, 0644, 1);
+	if (table->monitor_sem == SEM_FAILED)
 		return (0);
 	return (1);
 }

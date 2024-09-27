@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/26 14:15:29 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 01:08:41 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,12 @@ typedef struct s_philos	t_philos;
 
 typedef struct s_philos
 {
+	pthread_t	monitor_thread;
+	pthread_t	stop_process_thread;
+//	pthread_t	is_full_thread;
 	int			philo_id;
+	bool		is_alive;
+	bool		is_full;
 	size_t		die_time;
 	size_t		eat_time;
 	size_t		last_meal_time;
@@ -50,11 +55,11 @@ typedef struct s_philos
 
 typedef struct s_table
 {
-	int		philo_count;
-	sem_t	*all_alive;
-	int		ate_all_meals;
-	size_t	start_time;
-	sem_t	*forks;
+	int			philo_count;
+	size_t		start_time;
+	sem_t		*forks_sem;
+	sem_t		*stop_sem;
+	sem_t		*is_full_sem;
 	t_philos	*philos;
 }	t_table;
 
@@ -68,6 +73,6 @@ void	philo_process(t_philos *philos);
 void	eating(t_philos *philos);
 void	sleeping(t_philos *philos);
 void	thinking(t_philos *philos);
-void	monitoring(t_table *table);
+//void	monitoring(t_table *table);
 
 #endif

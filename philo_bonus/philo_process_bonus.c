@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:54:13 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/26 14:12:09 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 01:26:59 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,77 +16,155 @@ void	eating(t_philos *philos)
 {
 	size_t	elapsed;
 
-	sem_wait(philos->table->forks);
+	if (!philos->is_alive || philos->is_full) // or ate_all == true
+		return ;
 
-	sem_wait(philos->table->all_alive); //
-	elapsed = elapsed_time(philos->table->start_time);
-	printf(GRAY"%zu %d got a fork\n"DEFAULT, elapsed, philos->philo_id);
-	sem_post(philos->table->all_alive); //
+	sem_wait(philos->table->forks_sem);
 
-	sem_wait(philos->table->forks);
-
-	sem_wait(philos->table->all_alive); //
-	elapsed = elapsed_time(philos->table->start_time);
-	printf(GRAY"%zu %d got a fork\n"DEFAULT, elapsed, philos->philo_id);
-	sem_post(philos->table->all_alive); //
-
+	if (!philos->is_alive || philos->is_full) // or ate_all == true
+		return ;
 	
-	sem_wait(philos->table->all_alive); //
+	elapsed = elapsed_time(philos->table->start_time);
+	printf(GRAY"%zu %d got a fork\n"DEFAULT, elapsed, philos->philo_id);
+
+	sem_wait(philos->table->forks_sem);
+
+	if (!philos->is_alive || philos->is_full) // or ate_all == true
+		return ;
+		
+	elapsed = elapsed_time(philos->table->start_time);
+	printf(GRAY"%zu %d got a fork\n"DEFAULT, elapsed, philos->philo_id);
+	
+	if (!philos->is_alive || philos->is_full) // or ate_all == true
+		return ;
+	
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(MAGENTA"%zu %d is eating\n"DEFAULT, elapsed, philos->philo_id);
 	philos->last_meal_time = get_time();
-	sem_post(philos->table->all_alive); //
-	
 	usleep(philos->eat_time * 1000);
-	
-	sem_wait(philos->table->all_alive); //
+
+	if (!philos->is_alive || philos->is_full) // or ate_all == true
+		return ;
+		
 	philos->meals_eaten += 1;
-	sem_post(philos->table->all_alive); //
 	
-	sem_post(philos->table->forks);
-	sem_post(philos->table->forks);
+	sem_post(philos->table->forks_sem);
+	sem_post(philos->table->forks_sem);
 }
 
 void	sleeping(t_philos *philos)
 {
 	size_t	elapsed;
 
-	sem_wait(philos->table->all_alive); //
+	if (!philos->is_alive || philos->is_full) // or ate_all == true
+		return ;
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(BLUE"%zu %d is sleeping\n"DEFAULT, elapsed, philos->philo_id);
 	usleep(philos->sleep_time * 1000);
-	sem_post(philos->table->all_alive); //
 }
 
 void	thinking(t_philos *philos)
 {
 	size_t	elapsed;
 
-	sem_wait(philos->table->all_alive); //
+	if (!philos->is_alive || philos->is_full) // or ate_all == true
+		return ;
 	elapsed = elapsed_time(philos->table->start_time);
 	printf(YELLOW"%zu %d is thinking\n"DEFAULT, elapsed, philos->philo_id);
-	sem_post(philos->table->all_alive); //
+}
+
+//---------------------------------------//
+
+void	*monitoring(void *arg)
+{
+	t_philos	*philos;
+	size_t		elapsed_meal_time;
+	size_t		elapsed;
+
+	philos = (t_philos *)arg;
+	while (1)
+	{
+		//if (!philos->is_alive)
+		//	break ;
+		if (philos->is_full)
+		{
+			printf("Philo id = %d is full\n", philos->philo_id);
+			sem_post(philos->table->stop_sem); //
+			sem_post(philos->table->is_full_sem); //
+			break ;
+		}
+		elapsed_meal_time = elapsed_time(philos->last_meal_time);
+		if (elapsed_meal_time > philos->die_time)
+		{
+			philos->is_alive = false;
+			sem_post(philos->table->stop_sem);
+			elapsed = elapsed_time(philos->table->start_time);
+			printf(RED"%zu %d died\n"DEFAULT, elapsed, philos->philo_id);
+			break ;
+		}
+		usleep(500);
+	}
+	return (NULL);
+}
+
+void *philo_death(void *arg)
+{
+	t_philos	*philos;
+	int		i;
+
+	philos = (t_philos *)arg;
+	while (1)
+	{
+		sem_wait(philos->table->stop_sem);
+		if (!philos->is_alive)
+		{
+			sem_post(philos->table->stop_sem);
+			break;
+		}
+		//New check: are all philosophers full?
+		i = 0;
+		while (i < philos->table->philo_count)
+		{
+			printf("semaphore waiting id = %d\n", philos->philo_id);
+			sem_wait(philos->table->is_full_sem);
+			printf("semaphore waiting done id = %d\n", philos->philo_id);
+			i++;
+		}
+		if (i == philos->table->philo_count)
+		{
+			printf("exit loop id = %d\n", philos->philo_id);
+			break;
+		}
+		//sem_post(philos->table->stop_sem); // not sure
+		usleep(500);
+	}
+	return (NULL);
 }
 
 void	philo_process(t_philos *philos)
 {
-	//printf(BLUE"philo_process() id = %d\n"DEFAULT, philos->philo_id); //
+	if (pthread_create(&philos->monitor_thread, NULL, &monitoring, philos) != 0)
+			printf("Error: pthread_create\n");
+	if (pthread_create(&philos->stop_process_thread, NULL, &philo_death, philos) != 0)
+			printf("Error: pthread_create\n");
 	if (philos->philo_id % 2 == 0)
 		usleep(500);
 	while (1)
 	{
-		//printf("philo_process() loop id = %d\n", philos->philo_id); //
 		eating(philos);
 		if (philos->meals_eaten == philos->meals_to_eat)
 		{
-			philos->table->ate_all_meals += 1;
+			philos->is_full = true;
 			break ;
 		}
-		// if (!philos->table->all_alive)
-		// 	break ;
 		sleeping(philos);
 		thinking(philos);
+		if (!philos->is_alive)
+			break ;
 	}
-	printf(GREEN"Philosopher %d exiting...\n"DEFAULT, philos->philo_id); //
+	if (pthread_join(philos->monitor_thread, NULL) != 0)
+		printf("Error: pthread_join\n");
+	if (pthread_join(philos->stop_process_thread, NULL) != 0)
+		printf("Error: pthread_join\n");
 	exit(0);
 }

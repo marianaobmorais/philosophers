@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:15:02 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/27 01:08:55 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 10:21:37 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_struct(t_table *table)
 	sem_close(table->is_full_sem);
 	sem_unlink("forks_sem"); 
 	sem_unlink("stop_sem"); //
-	sem_unlink("is_full_sem");
+	sem_unlink("is_full_sem"); //
 	free(table);
 }
 
@@ -45,13 +45,14 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	i = 0;
-	while (i < table->philo_count - 1) // check this
+	while (i < table->philo_count - 1) // not sure why it only works with - 1
 	{
+		//printf("waiting pid\n");
 		waitpid(-1, NULL, 0);
 		i++;
 	}
-	//while (waitpid(-1, NULL, 0) > 0) // need to change NULL to &status??
-	//	printf("waiting pid\n");
+	// while (waitpid(-1, NULL, 0) > 0) // need to change NULL to &status??
+	// 	printf("waiting pid\n");
 	free_struct(table);
 	return (0);
 }

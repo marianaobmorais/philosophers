@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:47:11 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/24 13:44:09 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:10:43 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	fork_order(t_philos *philos, int i)
 void	eating(t_philos *philos)
 {
 	fork_order(philos, philos->philo_id - 1);
-	if (!print_message(philos, 0))
+	if (!print_message(philos, 0)) // divide this function between is alive and print message
 		return ;
 	pthread_mutex_lock(philos->first_fork);
 	if (!print_message(philos, 'f'))

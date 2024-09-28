@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/28 17:13:07 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 15:51:29 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <fcntl.h>
 # include <semaphore.h>
 # include <sys/wait.h>
-# include <signal.h>
 # include "colors.h"
 
 # define ERR_ARG_NUM "Error: Incorrect number of arguments\n"
@@ -44,7 +43,8 @@ typedef struct s_philos	t_philos;
 
 typedef struct s_philos
 {
-	pid_t		pid;
+	pthread_t	monitor_thread;
+	pthread_t	stop_process_thread;
 	int			philo_id;
 	bool		is_alive;
 	bool		is_full;
@@ -62,7 +62,7 @@ typedef struct s_table
 	int			philo_count;
 	size_t		start_time;
 	sem_t		*forks_sem;
-	sem_t		*stop_sem; // not sure if I will use it
+	sem_t		*stop_sem;
 	sem_t		*monitor_sem;
 	t_philos	*philos;
 }	t_table;
@@ -73,9 +73,15 @@ t_table	*init(char **argv);
 size_t	elapsed_time(size_t start_time);
 size_t	get_time(void);
 void	philo_process(t_philos *philos);
-bool	ft_is_alive(t_philos *philos);
 void	eating(t_philos *philos);
 void	sleeping(t_philos *philos);
 void	thinking(t_philos *philos);
+void	*monitoring(void *arg);
+void	eating(t_philos *philos);
+void	sleeping(t_philos *philos);
+void	thinking(t_philos *philos);
+void	*stop_process(void *arg);
+void	create_threads(t_philos *philos);
+void	join_threads(t_philos *philos);
 
 #endif

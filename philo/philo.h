@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/24 13:43:53 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:50:27 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,19 @@ typedef struct s_table
 	t_philos		*philos;
 }	t_table;
 
-int			check_args(int argc, char **argv);
-int			ft_atoi(char *ptr);
-t_table		*init(char **argv);
-void		*routine(void *arg);
-bool		print_message(t_philos *philos, char c);
-void		ft_wait(t_philos *philos, size_t interval);
-void		eating(t_philos *philos);
-void		sleeping(t_philos *philos);
-void		thinking(t_philos *philos);
-size_t		get_time(void);
-size_t		elapsed_time(size_t start_time);
-void		monitoring(t_table *table);
-void		free_structs(t_table *table, t_philos *philos, int count);
+int		check_args(int argc, char **argv);
+int		ft_atoi(char *ptr);
+t_table	*init(char **argv);
+void	*routine(void *arg);
+bool	print_message(t_philos *philos, char c);
+void	ft_wait(t_philos *philos, size_t interval);
+void	eating(t_philos *philos);
+bool	philos_are_full(t_table *table);
+void	sleeping(t_philos *philos);
+void	thinking(t_philos *philos);
+size_t	get_time(void);
+size_t	elapsed_time(size_t start_time);
+void	monitoring(t_table *table);
+void	free_structs(t_table *table, t_philos *philos, int count);
 
 #endif

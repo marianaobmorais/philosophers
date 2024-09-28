@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:50:33 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/28 17:14:25 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/27 15:51:07 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,13 @@ static void	print_message(t_philos *philos, int c)
 	size_t	elapsed;
 
 	sem_wait(philos->table->monitor_sem);
-	if (philos->is_alive)
+	if (philos->is_alive && !philos->is_full)
 	{
 		elapsed = elapsed_time(philos->table->start_time);
 		if (c == 'f')
 			printf(GRAY MESSAGE_FORK DEFAULT, elapsed, philos->philo_id);
 		if (c == 'e')
 			printf(MAGENTA MESSAGE_EAT DEFAULT, elapsed, philos->philo_id);
-		if (c == 's')
-			printf(BLUE MESSAGE_SLEEP DEFAULT, elapsed, philos->philo_id);
-		if (c == 't')
-			printf(YELLOW MESSAGE_THINK DEFAULT, elapsed, philos->philo_id);
 	}
 	sem_post(philos->table->monitor_sem);
 }
@@ -35,55 +31,52 @@ static void	print_message(t_philos *philos, int c)
 void	eating(t_philos *philos)
 {
 	sem_wait(philos->table->forks_sem);
-	if (!ft_is_alive(philos))
-	{
-		sem_post(philos->table->forks_sem);
-		return ;
-	}
 	print_message(philos, 'f');
-		
-	sem_wait(philos->table->forks_sem);
-	if (!ft_is_alive(philos))
+	if (philos->table->philo_count == 1)
 	{
-		sem_post(philos->table->forks_sem);
 		sem_post(philos->table->forks_sem);
 		return ;
 	}
+	sem_wait(philos->table->forks_sem);
 	print_message(philos, 'f');
 	print_message(philos, 'e');
 	sem_wait(philos->table->monitor_sem);
 	philos->last_meal_time = get_time();
 	sem_post(philos->table->monitor_sem);
-
-	
-	usleep(philos->eat_time * 1000); // change this
-
-	if (!ft_is_alive(philos))
-	{
-		sem_post(philos->table->forks_sem);
-		sem_post(philos->table->forks_sem);
-		return ;
-	}
-
+	usleep(philos->eat_time * 1000);
 	sem_wait(philos->table->monitor_sem);
-	philos->meals_eaten += 1;
+	if (philos->is_alive && !philos->is_full)
+		philos->meals_eaten += 1;
 	sem_post(philos->table->monitor_sem);
-
 	sem_post(philos->table->forks_sem);
 	sem_post(philos->table->forks_sem);
 }
 
 void	sleeping(t_philos *philos)
 {
-	if (ft_is_alive(philos))
+	size_t	elapsed;
+
+	sem_wait(philos->table->monitor_sem);
+	if (philos->is_alive && !philos->is_full)
 	{
-		print_message(philos, 's');
-		usleep(philos->sleep_time * 1000); // change this
+		elapsed = elapsed_time(philos->table->start_time);
+		printf(BLUE MESSAGE_SLEEP DEFAULT, elapsed, philos->philo_id);
+		sem_post(philos->table->monitor_sem);
+		usleep(philos->sleep_time * 1000);
 	}
+	else
+		sem_post(philos->table->monitor_sem);
 }
 
 void	thinking(t_philos *philos)
 {
-	if (ft_is_alive(philos))
-		print_message(philos, 't');
+	size_t	elapsed;
+
+	sem_wait(philos->table->monitor_sem);
+	if (philos->is_alive && !philos->is_full)
+	{
+		elapsed = elapsed_time(philos->table->start_time);
+		printf(YELLOW MESSAGE_THINK DEFAULT, elapsed, philos->philo_id);
+	}
+	sem_post(philos->table->monitor_sem);
 }

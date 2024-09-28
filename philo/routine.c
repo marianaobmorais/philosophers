@@ -3,25 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 18:57:58 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 19:25:10 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:52:14 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static bool	meal_check(t_philos *philos)
+static void	meal_count(t_philos *philos)
 {
 	if (philos->meals_eaten == philos->meals_to_eat)
 	{
 		pthread_mutex_lock(&philos->table->check_meals);
 		philos->table->ate_all_meals += 1;
 		pthread_mutex_unlock(&philos->table->check_meals);
-		return (true);
 	}
-	return (false);
 }
 
 static bool	death_check(t_philos *philos)
@@ -50,7 +48,8 @@ void	*routine(void *arg)
 		eating(philos);
 		if (philos->second_fork == philos->first_fork)
 			break ;
-		stop_loop = meal_check(philos);
+		meal_count(philos);
+		stop_loop = philos_are_full(philos->table);
 		if (stop_loop)
 			break ;
 		sleeping(philos);

@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   monitoring.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:39:43 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 16:54:30 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:51:31 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static bool	meal_count(t_table *table)
+bool	philos_are_full(t_table *table)
 {
 	pthread_mutex_lock(&table->check_meals);
 	if (table->ate_all_meals == table->philo_count)
 	{
+		//printf("philosopher is full\n");
 		pthread_mutex_unlock(&table->check_meals);
 		return (true);
 	}
@@ -56,7 +57,7 @@ void	monitoring(t_table *table)
 		i = 0;
 		while (i < table->philo_count)
 		{
-			stop_loop = meal_count(table);
+			stop_loop = philos_are_full(table);
 			if (stop_loop)
 				break ;
 			stop_loop = count_down(table, i);

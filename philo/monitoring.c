@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:39:43 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/28 16:51:31 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/29 21:20:28 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ bool	philos_are_full(t_table *table)
 	pthread_mutex_lock(&table->check_meals);
 	if (table->ate_all_meals == table->philo_count)
 	{
-		//printf("philosopher is full\n");
 		pthread_mutex_unlock(&table->check_meals);
 		return (true);
 	}
@@ -25,7 +24,7 @@ bool	philos_are_full(t_table *table)
 	return (false);
 }
 
-static bool	count_down(t_table *table, int i)
+static bool	philo_is_dead(t_table *table, int i)
 {
 	size_t	elapsed_meal_time;
 	size_t	elapsed;
@@ -60,7 +59,7 @@ void	monitoring(t_table *table)
 			stop_loop = philos_are_full(table);
 			if (stop_loop)
 				break ;
-			stop_loop = count_down(table, i);
+			stop_loop = philo_is_dead(table, i);
 			if (stop_loop)
 				break ;
 			i++;

@@ -6,11 +6,29 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:50:33 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/29 13:35:10 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/29 21:54:02 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+static void	ft_wait(t_philos *philos, size_t interval)
+{
+	size_t	start;
+
+	start = get_time();
+	while ((get_time() - start) < interval)
+	{
+		sem_wait(philos->table->monitor_sem);
+		if (!philos->is_alive)
+		{
+			sem_post(philos->table->monitor_sem);
+			break ;
+		}
+		sem_post(philos->table->monitor_sem);
+		usleep(500);
+	}
+}
 
 static void	print_message(t_philos *philos, int c)
 {
@@ -55,8 +73,7 @@ bool	eating(t_philos *philos)
 	philos->last_meal_time = get_time();
 	sem_post(philos->table->monitor_sem);
 
-	
-	usleep(philos->eat_time * 1000); // change this
+	ft_wait(philos, philos->eat_time);
 
 	if (!is_alive(philos))
 	{
@@ -79,7 +96,7 @@ bool	sleeping(t_philos *philos)
 	if (is_alive(philos))
 	{
 		print_message(philos, 's');
-		usleep(philos->sleep_time * 1000); // change this
+		ft_wait(philos, philos->sleep_time);
 		return (true);
 	}
 	return (false);

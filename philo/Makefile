@@ -6,7 +6,7 @@
 #    By: marianamorais <marianamorais@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 16:55:40 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/25 21:48:00 by marianamora      ###   ########.fr        #
+#    Updated: 2024/09/29 21:24:40 by marianamora      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS = main.c \
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=thread
 #CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
 RM = rm -f

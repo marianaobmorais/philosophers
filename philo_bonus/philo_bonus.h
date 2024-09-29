@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/29 13:33:33 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/29 21:40:10 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ typedef struct s_table
 	int			philo_count;
 	size_t		start_time;
 	sem_t		*forks_sem;
-	sem_t		*stop_sem; // not sure if I will use it
+	sem_t		*stop_sem;
 	sem_t		*monitor_sem;
+	sem_t		*death_sem; // not sure
 	t_philos	*philos;
 }	t_table;
 

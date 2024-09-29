@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:47:11 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/28 16:10:43 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/29 21:23:26 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,23 @@ static void	fork_order(t_philos *philos, int i)
 void	eating(t_philos *philos)
 {
 	fork_order(philos, philos->philo_id - 1);
-	if (!print_message(philos, 0)) // divide this function between is alive and print message
+	if (!if_alive_print_message(philos, 0)) // divide this function between is alive and print message
 		return ;
 	pthread_mutex_lock(philos->first_fork);
-	if (!print_message(philos, 'f'))
+	if (!if_alive_print_message(philos, 'f'))
 		return (unlock_forks(philos, 1));
 	if (philos->second_fork == philos->first_fork)
 		return (unlock_forks(philos, 1));
 	pthread_mutex_lock(philos->second_fork);
-	if (!print_message(philos, 'f'))
+	if (!if_alive_print_message(philos, 'f'))
 		return (unlock_forks(philos, 2));
-	if (!print_message(philos, 'e'))
+	if (!if_alive_print_message(philos, 'e'))
 		return (unlock_forks(philos, 2));
 	pthread_mutex_lock(&philos->table->check_clock);
 	philos->last_meal_time = get_time();
 	pthread_mutex_unlock(&philos->table->check_clock);
 	ft_wait(philos, philos->eat_time);
-	if (!print_message(philos, 0))
+	if (!if_alive_print_message(philos, 0))
 		return (unlock_forks(philos, 2));
 	philos->meals_eaten += 1;
 	unlock_forks(philos, 2);
@@ -74,12 +74,12 @@ void	eating(t_philos *philos)
 
 void	sleeping(t_philos *philos)
 {
-	if (print_message(philos, 's'))
+	if (if_alive_print_message(philos, 's'))
 		ft_wait(philos, philos->sleep_time);
 }
 
 void	thinking(t_philos *philos)
 {
-	if (print_message(philos, 't'))
+	if (if_alive_print_message(philos, 't'))
 		return ;
 }

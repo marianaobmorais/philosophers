@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:54:13 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/29 13:36:29 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/29 21:53:23 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,13 @@ void	philo_process(t_philos *philos)
 {
 	int	i;
 
+	printf(GREEN"initializing process philo %d at %zu ms\n"DEFAULT, philos->table->philo_count, get_time() - philos->table->start_time); //
+
 	if (philos->philo_id % 2 == 0)
 		usleep(500);
+		
+	//printf(GREEN"initializing process philo %d at %zu ms\n"DEFAULT, philos->table->philo_count, get_time() - philos->table->start_time); //
+	
 	while (1)
 	{
 		if (!eating(philos))
@@ -49,44 +54,14 @@ void	philo_process(t_philos *philos)
 			break ;
 		usleep(500);
 	}
+	
 	i = 0;
+	printf("philo %d is dead. proceeding to kill processes\n", philos->philo_id);
 	while (i < philos->table->philo_count)
 	{
 		sem_post(philos->table->stop_sem);
 		i++;
 	}
+	
 	exit(0);
 }
-
-
-// void	philo_process(t_philos *philos)
-// {
-// 	bool	keep_loop;
-
-// 	if (philos->philo_id % 2 == 0)
-// 		usleep(500);
-// 	while (1)
-// 	{
-// 		//printf(GREEN"philo %d process loop\n"DEFAULT, philos->philo_id);
-// 		keep_loop = is_alive(philos);
-// 		printf("philo %d keep loop == %d\n", philos->philo_id, keep_loop);
-// 		if (!keep_loop) // don't know why it is not working
-// 		{
-// 			//printf(RED"philo %d not alive break loop\n"DEFAULT, philos->philo_id);
-// 			break ;
-// 		}
-// 		eating(philos);
-// 		if (philos->meals_eaten == philos->meals_to_eat)
-// 			sem_post(philos->table->stop_sem);
-// 		sleeping(philos);
-// 		thinking(philos);
-// 		usleep(500);
-// 	}
-// 	int i = 0;
-// 	while (i < philos->table->philo_count) // proceed to kill processes
-// 	{
-// 		sem_post(philos->table->stop_sem);
-// 		i++;
-// 	}
-// 	exit(0);
-// }

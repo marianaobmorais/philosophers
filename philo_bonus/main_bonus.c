@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:15:02 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/28 17:40:54 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/29 13:37:59 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv)
 		i++;
 	}
 
-	//wait for all philos to be full
+	//wait for all philos to be full or one philo to be dead
 	i = 0;
 	while (i < table->philo_count)
 	{
@@ -57,13 +57,13 @@ int	main(int argc, char **argv)
 		i++;
 	}
 
-	//release all forks?
-	// i = 0;
-	// while (i < table->philo_count)
-	// {
-	// 	sem_post(table->forks_sem);
-	// 	i++;
-	// }
+	//release all forks? do I need this?
+	i = 0;
+	while (i < table->philo_count)
+	{
+		sem_post(table->forks_sem);
+		i++;
+	}
 	
 	//kill all the processes
 	i = 0;
@@ -73,7 +73,7 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	
-	//wait processes
+	//wait for all child processes
 	i = 0;
 	int status;
 	while (waitpid(ALL_CHILD, &status, 0) > 0)

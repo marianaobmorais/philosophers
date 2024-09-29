@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/28 17:13:07 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/29 13:33:33 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ t_table	*init(char **argv);
 size_t	elapsed_time(size_t start_time);
 size_t	get_time(void);
 void	philo_process(t_philos *philos);
-bool	ft_is_alive(t_philos *philos);
-void	eating(t_philos *philos);
-void	sleeping(t_philos *philos);
-void	thinking(t_philos *philos);
+bool	is_alive(t_philos *philos);
+bool	eating(t_philos *philos);
+bool	sleeping(t_philos *philos);
+bool	thinking(t_philos *philos);
 
 #endif

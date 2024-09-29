@@ -6,7 +6,7 @@
 /*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:50:33 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/28 17:14:25 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/29 13:35:10 by marianamora      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,22 @@ static void	print_message(t_philos *philos, int c)
 	sem_post(philos->table->monitor_sem);
 }
 
-void	eating(t_philos *philos)
+bool	eating(t_philos *philos)
 {
 	sem_wait(philos->table->forks_sem);
-	if (!ft_is_alive(philos))
+	if (!is_alive(philos))
 	{
 		sem_post(philos->table->forks_sem);
-		return ;
+		return (false);
 	}
 	print_message(philos, 'f');
 		
 	sem_wait(philos->table->forks_sem);
-	if (!ft_is_alive(philos))
+	if (!is_alive(philos))
 	{
 		sem_post(philos->table->forks_sem);
 		sem_post(philos->table->forks_sem);
-		return ;
+		return (false);
 	}
 	print_message(philos, 'f');
 	print_message(philos, 'e');
@@ -58,11 +58,11 @@ void	eating(t_philos *philos)
 	
 	usleep(philos->eat_time * 1000); // change this
 
-	if (!ft_is_alive(philos))
+	if (!is_alive(philos))
 	{
 		sem_post(philos->table->forks_sem);
 		sem_post(philos->table->forks_sem);
-		return ;
+		return (false);
 	}
 
 	sem_wait(philos->table->monitor_sem);
@@ -71,19 +71,26 @@ void	eating(t_philos *philos)
 
 	sem_post(philos->table->forks_sem);
 	sem_post(philos->table->forks_sem);
+	return (true);
 }
 
-void	sleeping(t_philos *philos)
+bool	sleeping(t_philos *philos)
 {
-	if (ft_is_alive(philos))
+	if (is_alive(philos))
 	{
 		print_message(philos, 's');
 		usleep(philos->sleep_time * 1000); // change this
+		return (true);
 	}
+	return (false);
 }
 
-void	thinking(t_philos *philos)
+bool	thinking(t_philos *philos)
 {
-	if (ft_is_alive(philos))
+	if (is_alive(philos))
+	{
 		print_message(philos, 't');
+		return (true);
+	}
+	return (false);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/29 21:40:10 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/30 18:45:19 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ typedef struct s_philos	t_philos;
 
 typedef struct s_philos
 {
+	pthread_t	monitor_thread;//
 	pid_t		pid;
-	int			philo_id;
+	int			id;
 	bool		is_alive;
 	bool		is_full;
 	size_t		die_time;
@@ -64,7 +65,6 @@ typedef struct s_table
 	sem_t		*forks_sem;
 	sem_t		*stop_sem;
 	sem_t		*monitor_sem;
-	sem_t		*death_sem; // not sure
 	t_philos	*philos;
 }	t_table;
 
@@ -78,5 +78,8 @@ bool	is_alive(t_philos *philos);
 bool	eating(t_philos *philos);
 bool	sleeping(t_philos *philos);
 bool	thinking(t_philos *philos);
+void	ft_wait(t_philos *philos, size_t interval);
+void	free_table(t_table *table);
+void	unlink_sem();
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_utils.c                                       :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:24:16 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/23 18:34:52 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_philos	philos_iter(char **argv, t_table *table, int i)
 {
 	t_philos	philos;
 
-	philos.philo_id = i + 1;
+	philos.id = i + 1;
 	philos.die_time = ft_atoi(argv[2]);
 	philos.eat_time = ft_atoi(argv[3]);
 	philos.last_meal_time = table->start_time;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:20:17 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/29 21:23:13 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_philos	t_philos;
 typedef struct s_philos
 {
 	pthread_t		philo;
-	int				philo_id;
+	int				id;
 	size_t			die_time;
 	size_t			eat_time;
 	size_t			last_meal_time;

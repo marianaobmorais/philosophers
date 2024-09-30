@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:50:33 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/27 15:51:07 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void	print_message(t_philos *philos, int c)
 	{
 		elapsed = elapsed_time(philos->table->start_time);
 		if (c == 'f')
-			printf(GRAY MESSAGE_FORK DEFAULT, elapsed, philos->philo_id);
+			printf(GRAY MESSAGE_FORK DEFAULT, elapsed, philos->id);
 		if (c == 'e')
-			printf(MAGENTA MESSAGE_EAT DEFAULT, elapsed, philos->philo_id);
+			printf(MAGENTA MESSAGE_EAT DEFAULT, elapsed, philos->id);
 	}
 	sem_post(philos->table->monitor_sem);
 }
@@ -60,7 +60,7 @@ void	sleeping(t_philos *philos)
 	if (philos->is_alive && !philos->is_full)
 	{
 		elapsed = elapsed_time(philos->table->start_time);
-		printf(BLUE MESSAGE_SLEEP DEFAULT, elapsed, philos->philo_id);
+		printf(BLUE MESSAGE_SLEEP DEFAULT, elapsed, philos->id);
 		sem_post(philos->table->monitor_sem);
 		usleep(philos->sleep_time * 1000);
 	}
@@ -76,7 +76,7 @@ void	thinking(t_philos *philos)
 	if (philos->is_alive && !philos->is_full)
 	{
 		elapsed = elapsed_time(philos->table->start_time);
-		printf(YELLOW MESSAGE_THINK DEFAULT, elapsed, philos->philo_id);
+		printf(YELLOW MESSAGE_THINK DEFAULT, elapsed, philos->id);
 	}
 	sem_post(philos->table->monitor_sem);
 }

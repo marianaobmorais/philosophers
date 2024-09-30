@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/27 15:51:29 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_philos
 {
 	pthread_t	monitor_thread;
 	pthread_t	stop_process_thread;
-	int			philo_id;
+	int			id;
 	bool		is_alive;
 	bool		is_full;
 	size_t		die_time;

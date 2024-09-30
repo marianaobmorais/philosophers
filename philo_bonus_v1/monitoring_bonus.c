@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitoring_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:56:14 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/26 22:22:22 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // 	{
 // 		sem_wait(table->all_alive); //
 // 		elapsed = elapsed_time(table->start_time);
-// 		printf(RED"%zu %d died\n"DEFAULT, elapsed, table->philos[i].philo_id);
+// 		printf(RED"%zu %d died\n"DEFAULT, elapsed, table->philos[i].id);
 // 		kill(0, SIGKILL); // kill processes?
 // 		//sem_post(table->all_alive); //
 // 		return (true);

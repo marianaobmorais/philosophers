@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:47:11 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/29 21:23:26 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void	unlock_forks(t_philos *philos, int count)
 
 static void	fork_order(t_philos *philos, int i)
 {
-	if (philos->philo_id % 2 == 1)
+	if (philos->id % 2 == 1)
 	{
-		if (philos->philo_id == philos->table->philo_count)
+		if (philos->id == philos->table->philo_count)
 		{
 			philos->first_fork = &philos->table->fork[i];
 			philos->second_fork = &philos->table->fork[0];
@@ -35,7 +35,7 @@ static void	fork_order(t_philos *philos, int i)
 		}
 		return ;
 	}
-	if (philos->philo_id == philos->table->philo_count)
+	if (philos->id == philos->table->philo_count)
 	{
 		philos->first_fork = &philos->table->fork[0];
 		philos->second_fork = &philos->table->fork[i];
@@ -49,8 +49,8 @@ static void	fork_order(t_philos *philos, int i)
 
 void	eating(t_philos *philos)
 {
-	fork_order(philos, philos->philo_id - 1);
-	if (!if_alive_print_message(philos, 0)) // divide this function between is alive and print message
+	fork_order(philos, philos->id - 1);
+	if (!if_alive_print_message(philos, 0))
 		return ;
 	pthread_mutex_lock(philos->first_fork);
 	if (!if_alive_print_message(philos, 'f'))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 18:57:58 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/28 16:52:14 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*routine(void *arg)
 
 	philos = (t_philos *)arg;
 	stop_loop = false;
-	if (philos->philo_id % 2 == 0)
+	if (philos->id % 2 == 0)
 		usleep(500);
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 16:02:15 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/27 16:04:24 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	count_down(t_philos *philos)
 	{
 		philos->is_alive = false;
 		elapsed = elapsed_time(philos->table->start_time);
-		printf(RED MESSAGE_DEATH DEFAULT, elapsed, philos->philo_id);
+		printf(RED MESSAGE_DEATH DEFAULT, elapsed, philos->id);
 		sem_post(philos->table->monitor_sem);
 		sem_post(philos->table->stop_sem);
 		return (true);

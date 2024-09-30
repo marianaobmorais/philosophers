@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:50:25 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/29 21:40:52 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/30 18:44:19 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	init_philos(t_philos *philos, t_table *table, int i, char **argv)
 {
-	philos->philo_id = i + 1;
+	philos->id = i + 1;
 	philos->is_alive = true;
 	philos->is_full = false;
 	philos->die_time = ft_atoi(argv[2]);
@@ -30,23 +30,24 @@ static void	init_philos(t_philos *philos, t_table *table, int i, char **argv)
 
 static int	init_sem(t_table *table)
 {
-	sem_unlink("forks_sem");
+	unlink_sem();
 	table->forks_sem = sem_open("forks_sem", O_CREAT, 0644, table->philo_count);
 	if (table->forks_sem == SEM_FAILED)
 		return (0);
-	sem_unlink("stop_sem");
 	table->stop_sem = sem_open("stop_sem", O_CREAT, 0644, 0);
 	if (table->stop_sem == SEM_FAILED)
 		return (0);
-	sem_unlink("monitor_sem");
 	table->monitor_sem = sem_open("monitor_sem", O_CREAT, 0644, 1);
 	if (table->monitor_sem == SEM_FAILED)
 		return (0);
-	sem_unlink("death_sem"); // not sure
-	table->monitor_sem = sem_open("death_sem", O_CREAT, 0644, 1); // not sure
-	if (table->monitor_sem == SEM_FAILED)
-		return (0);
 	return (1);
+}
+
+void	unlink_sem()
+{
+	sem_unlink("forks_sem");
+	sem_unlink("stop_sem");
+	sem_unlink("monitor_sem");
 }
 
 t_table	*init(char **argv)

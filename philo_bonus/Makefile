@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marianamorais <marianamorais@student.42    +#+  +:+       +#+         #
+#    By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/24 14:00:03 by mariaoli          #+#    #+#              #
-#    Updated: 2024/09/29 21:07:38 by marianamora      ###   ########.fr        #
+#    Updated: 2024/09/30 19:14:38 by mariaoli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

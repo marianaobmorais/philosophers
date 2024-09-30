@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:50:25 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/27 12:12:23 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	init_philos(t_philos *philos, t_table *table, int i, char **argv)
 {
-	philos->philo_id = i + 1;
+	philos->id = i + 1;
 	philos->is_alive = true;
 	philos->is_full = false;
 	philos->die_time = ft_atoi(argv[2]);

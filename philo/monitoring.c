@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitoring.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marianamorais <marianamorais@student.42    +#+  +:+       +#+        */
+/*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:39:43 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/29 21:20:28 by marianamora      ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool	philo_is_dead(t_table *table, int i)
 		pthread_mutex_lock(&table->check_vitals);
 		table->all_alive = false;
 		elapsed = elapsed_time(table->start_time);
-		printf(RED MESSAGE_DEATH DEFAULT, elapsed, table->philos[i].philo_id);
+		printf(RED MESSAGE_DEATH DEFAULT, elapsed, table->philos[i].id);
 		pthread_mutex_unlock(&table->check_vitals);
 		pthread_mutex_unlock(&table->check_clock);
 		return (true);

@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:54:13 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/27 15:54:54 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:06 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static bool	stop_loop(t_philos *philos)
 void	philo_process(t_philos *philos)
 {
 	create_threads(philos);
-	if (philos->philo_id % 2 == 0)
+	if (philos->id % 2 == 0)
 		usleep(500);
 	while (1)
 	{

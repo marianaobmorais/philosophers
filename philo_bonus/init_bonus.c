@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:50:25 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/30 18:44:19 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:24:31 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	init_sem(t_table *table)
 	return (1);
 }
 
-void	unlink_sem()
+void	unlink_sem(void)
 {
 	sem_unlink("forks_sem");
 	sem_unlink("stop_sem");

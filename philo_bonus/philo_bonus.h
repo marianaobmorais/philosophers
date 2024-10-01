@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:04:12 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/30 18:45:19 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:28:14 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ t_table	*init(char **argv);
 size_t	elapsed_time(size_t start_time);
 size_t	get_time(void);
 void	philo_process(t_philos *philos);
-bool	is_alive(t_philos *philos);
-bool	eating(t_philos *philos);
-bool	sleeping(t_philos *philos);
-bool	thinking(t_philos *philos);
+void	eating(t_philos *philos);
+void	sleeping(t_philos *philos);
+void	thinking(t_philos *philos);
+void	print_message(t_philos *philos, int c);
 void	ft_wait(t_philos *philos, size_t interval);
 void	free_table(t_table *table);
-void	unlink_sem();
+void	unlink_sem(void);
 
 #endif

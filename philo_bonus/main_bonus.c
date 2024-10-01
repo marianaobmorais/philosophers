@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:15:02 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/30 18:44:08 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:30:12 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,37 @@ void	free_table(t_table *table)
 	}
 }
 
+static void	kill_processes(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->philo_count)
+	{
+		sem_wait(table->stop_sem);
+		i++;
+	}
+	i = 0;
+	while (i < table->philo_count)
+	{
+		kill(table->philos[i].pid, SIGKILL);
+		i++;
+	}
+}
+
+static void	wait_child_processes(t_table *table)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < table->philo_count)
+	{
+		waitpid(table->philos[i].pid, &status, 0);
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	int		i;
@@ -40,37 +71,14 @@ int	main(int argc, char **argv)
 	while (i < table->philo_count)
 	{
 		table->philos[i].pid = fork();
-		if (table->philos[i].pid== -1)
+		if (table->philos[i].pid == -1)
 			return (1);
 		if (table->philos[i].pid == 0)
 			philo_process(&table->philos[i]);
 		i++;
 	}
-
-	//wait for all philos to be full or one philo to be dead
-	i = 0;
-	while (i < table->philo_count)
-	{
-		sem_wait(table->stop_sem);
-		i++;
-	}
-	
-	//kill all the processes
-	i = 0;
-	while (i < table->philo_count)
-	{
-		kill(table->philos[i].pid, SIGKILL);
-		i++;
-	}
-	
-	//wait for all child processes
-	int status;
-	i = 0;
-	while (i < table->philo_count)
-	{ 
-		waitpid(table->philos[i].pid, &status, 0);
-		i++;
-	}
+	kill_processes(table);
+	wait_child_processes(table);
 	free(table->philos);
 	free_table(table);
 	unlink_sem();

@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"philo.h": "c",
-		"stdbool.h": "c",
-		"pthread.h": "c",
-		"semaphore.h": "c",
-		"philo_bonus.h": "c"
-	}
-}

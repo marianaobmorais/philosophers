@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:50:33 by mariaoli          #+#    #+#             */
-/*   Updated: 2024/09/30 19:11:50 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:24:38 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_wait(t_philos *philos, size_t interval)
 			break ;
 		}
 		sem_post(philos->table->monitor_sem);
-		usleep(500); // reduce to 100?
+		usleep(100);
 	}
 }
 
@@ -34,7 +34,6 @@ static void	print_message(t_philos *philos, int c)
 {
 	size_t	elapsed;
 
-	//printf(GREEN"print message function\n" DEFAULT);
 	sem_wait(philos->table->monitor_sem);
 	if (philos->is_alive)
 	{
@@ -48,7 +47,6 @@ static void	print_message(t_philos *philos, int c)
 		if (c == 't')
 			printf(YELLOW MESSAGE_THINK DEFAULT, elapsed, philos->id);
 	}
-	//printf(GREEN"returning from print message\n" DEFAULT);
 	sem_post(philos->table->monitor_sem);
 }
 
@@ -90,6 +88,7 @@ bool	eating(t_philos *philos)
 
 	print_message(philos, 'f');
 	print_message(philos, 'e');
+	
 	sem_wait(philos->table->monitor_sem);
 	philos->last_meal_time = get_time();
 	sem_post(philos->table->monitor_sem);
@@ -113,34 +112,27 @@ bool	eating(t_philos *philos)
 
 	sem_post(philos->table->forks_sem);
 	sem_post(philos->table->forks_sem);
-	
-	printf("exiting eating philo %d\n", philos->id);
+
 	return (true);
 }
 
 bool	sleeping(t_philos *philos)
 {
-	sem_wait(philos->table->monitor_sem);
 	if (philos->is_alive)
 	{
 		print_message(philos, 's');
 		ft_wait(philos, philos->sleep_time);
-		sem_post(philos->table->monitor_sem);
 		return (true);
 	}
-	sem_post(philos->table->monitor_sem);
 	return (false);
 }
 
 bool	thinking(t_philos *philos)
 {
-	sem_wait(philos->table->monitor_sem);
 	if (philos->is_alive)
 	{
-		sem_post(philos->table->monitor_sem);
 		print_message(philos, 't');
 		return (true);
 	}
-	sem_post(philos->table->monitor_sem);
 	return (false);
 }

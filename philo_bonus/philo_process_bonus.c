@@ -6,7 +6,7 @@
 /*   By: mariaoli <mariaoli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:54:13 by marianamora       #+#    #+#             */
-/*   Updated: 2024/09/30 19:14:23 by mariaoli         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:21:40 by mariaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,17 @@ void	*monitoring(void *arg)
 	philos = (t_philos *)arg;
 	while (1)
 	{
+		sem_wait(philos->table->monitor_sem);//
 		elapsed_meal_time = elapsed_time(philos->last_meal_time);
 		if (elapsed_meal_time >philos->die_time && philos->is_alive)
 		{
 			philos->is_alive = false;
+			sem_post(philos->table->monitor_sem);//
 			elapsed = elapsed_time(philos->table->start_time);
 			printf(RED MESSAGE_DEATH DEFAULT, elapsed, philos->id);
 			break ;
 		}
+		sem_post(philos->table->monitor_sem);//
 		usleep(500);
 	}
 	return (NULL);
@@ -68,9 +71,6 @@ void	philo_process(t_philos *philos)
 			break ;
 		if (philos->meals_eaten == philos->meals_to_eat)
 			sem_post(philos->table->stop_sem);
-			
-		printf("about sleep philo %d\n", philos->id);
-		
 		if (!sleeping(philos))
 			break ;
 		if (!thinking(philos))
@@ -78,7 +78,7 @@ void	philo_process(t_philos *philos)
 		usleep(500);
 	}
 
-	printf("about to join thread philo %d", philos->id);
+	printf("about to join thread philo %d", philos->id); // why isn't the thread joining?
 	
 	if (pthread_join(philos->monitor_thread, NULL) != 0)
 		printf("Error: pthread_join\n");

@@ -81,5 +81,5 @@ void	sleeping(t_philos *philos)
 void	thinking(t_philos *philos)
 {
 	if (if_alive_print_message(philos, 't'))
-		return ;
+		usleep(500);
 }

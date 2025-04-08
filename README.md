@@ -2,7 +2,7 @@
 	<img src="https://img.shields.io/github/last-commit/marianaobmorais/philosophers?color=%2312bab9&style=flat-square"/>
 </p>
 
-# push_swap
+# philosophers
 
 #### Finished in 2024-10-01
 
